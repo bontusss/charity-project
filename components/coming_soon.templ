@@ -1,0 +1,55 @@
+package components
+
+templ ComingSoon() {
+@Base("Coming Soon") {
+<!-- ==== coming soon section start ==== -->
+<section class="soon">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="soon__inner">
+          <div class="soon__logo">
+            <a href="index.html">
+              <img src="/static/images/logo-light.png" alt="Image">
+            </a>
+          </div>
+          <div class="countdown-wrapper">
+            <div class="clock">
+              <div class="hand hour-hand"></div>
+              <div class="hand minute-hand"></div>
+              <div class="hand second-hand"></div>
+              <div class="center-dot"></div>
+              <div class="center-dot-orange"></div>
+              <div class="hour-markers"></div>
+              <div class="minute-markers"></div>
+            </div>
+            <div class="time-countdown">
+              <div class="counter-column"><span class="count day">0</span>Days</div>
+              <div class="counter-column"><span class="count hour">0</span>Hours</div>
+              <div class="counter-column"><span class="count minute">0</span>Minutes</div>
+              <div class="counter-column"><span class="count second">0</span>Seconds</div>
+            </div>
+          </div>
+          <div class="content">
+            <h4 class="title-animation">Something exciting is coming!</h4>
+            <p>Exciting updates are on the way.</p>
+            <p>Stay with us!</p>
+            <form method="post" action="#">
+              <div class="form-group">
+                <input type="email" name="sub-email" id="subEmail" placeholder="Your Email" required>
+                <button type="submit" class="btn--primary" aria-label="subscribe our newsletter"
+                  title="subscribe our newsletter">Subscribe</button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="soon-bg">
+    <img src="/static/images/banner/banner-one-bg.png" alt="Image" class="parallax-image">
+  </div>
+</section>
+}
+}
