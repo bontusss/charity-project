@@ -1,138 +1,214 @@
 package components
 
 templ Contact() {
-@Base("Contact us") {
-<!-- ==== banner section start ==== -->
-<section class="common-banner">
-  <div class="container">
-    <div class="row">
-      <div class="common-banner__content text-center">
-        <span class="sub-title"><i class="icon-donation"></i>Start donating poor people</span>
-        <h2 class="title-animation">Contact Us</h2>
-      </div>
-    </div>
-  </div>
-  <div class="banner-bg">
-    <img src="/static/images/banner/banner-bg.png" alt="Image">
-  </div>
-  <div class="shape">
-    <img src="/static/images/shape.png" alt="Image">
-  </div>
-  <div class="sprade" data-aos="zoom-in" data-aos-duration="1000">
-    <img src="/static/images/sprade-base.png" alt="Image" class="base-img">
-  </div>
-</section>
-<!-- ==== / banner section end ==== -->
-<!-- ==== contact section start ==== -->
-<section class="contact-main volunteer">
-  <div class="container">
-    <div class="row gutter-40">
-      <div class="col-12 col-xl-6">
-        <div class="contact__content">
-          <div class="section__content" data-aos="fade-up" data-aos-duration="1000">
-            <span class="sub-title"><i class="icon-donation"></i> Get In Touch</span>
-            <h2 class="title-animation">Contact Us</h2>
-            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
-              doloremque laudantium, totam rem aperiam, eaque inventore
-            </p>
-          </div>
-          <div class="contact-main__inner cta">
-            <div class="contact-main__single">
-              <div class="thumb">
-                <i class="fa-solid fa-location-dot"></i>
-              </div>
-              <div class="content">
-                <h6>Location</h6>
-                <p><a href="https://maps.app.goo.gl/Gr9pTNqz5FRNrjQw8" target="_blank">
-                    No 176 Azikiwe road, Aba
-                    Abia State, Nigeria
-                  </a>
-                </p>
-              </div>
-            </div>
-            <div class="contact-main__single">
-              <div class="thumb">
-                <i class="fa-solid fa-phone"></i>
-              </div>
-              <div class="content">
-                <h6>Phone</h6>
-                <p><a href="tel:2305-587-3407">+2348062925996 </a></p>
-                <p><a href="tel:2305-587-3407">+2347010191743</a></p>
-              </div>
-            </div>
-            <div class="contact-main__single">
-              <div class="thumb">
-                <i class="fa-solid fa-envelope"></i>
-              </div>
-              <div class="content">
-                <h6>Email</h6>
-                <p><a href="mailto:support@example.com">example@email.com</a></p>
-                <p><a href="mailto:support@example.com">charifund@email.com</a></p>
-              </div>
-            </div>
-            <div class="contact-main__single">
-              <div class="thumb">
-                <i class="fa-solid fa-share-nodes"></i>
-              </div>
-              <div class="content">
-                <h6>Social</h6>
-                <div class="social">
-                  <a href="https://www.facebook.com/" target="_blank" aria-label="share us on facebook"
-                    title="facebook">
-                    <i class="fa-brands fa-facebook-f"></i>
-                  </a>
-                  <a href="https://vimeo.com/" target="_blank" aria-label="share us on vimeo" title="vimeo">
-                    <i class="fa-brands fa-vimeo-v"></i>
-                  </a>
-                  <a href="https://x.com/" target="_blank" aria-label="share us on twitter" title="twitter">
-                    <i class="fa-brands fa-twitter"></i>
-                  </a>
-                  <a href="https://www.linkedin.com/" target="_blank" aria-label="share us on linkedin"
-                    title="linkedin">
-                    <i class="fa-brands fa-linkedin-in"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="contact-main__thumb cta">
-            <img src="/static/images/contact-thumb.png" alt="Image">
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-xl-6">
-        <div class="contact__form volunteer__form checkout__form" data-aos="fade-up" data-aos-duration="1000"
-          data-aos-delay="100">
-          <div class="volunteer__form-content">
-            <h4 class="title-animation">Fill Up The Form</h4>
-            <p>Your email address will not be published. Required fields are marked *</p>
-          </div>
-          <form action="#" method="post" class="cta">
-            <div class="input-single">
-              <input type="text" name="full-name" id="fullName" placeholder="Enter Name" required>
-              <i class="fa-solid fa-user"></i>
-            </div>
-            <div class="input-single">
-              <input type="email" name="c-email" id="cEmail" placeholder="Enter Email" required>
-              <i class="fa-solid fa-envelope"></i>
-            </div>
-            <div class="input-single">
-              <input type="text" name="phone-number" id="phoneNumber" placeholder="Phone Number" required>
-              <i class="fa-solid fa-phone"></i>
-            </div>
-            <div class="input-single alter-input">
-              <textarea name="contact-message" id="contactMessage" placeholder="Your Message..."></textarea>
-              <i class="fa-solid fa-comments"></i>
-            </div>
-            <div class="form-cta">
-              <button type="submit" aria-label="submit message" title="submit message" class="btn--primary">Send Message
-                <i class="fa-solid fa-arrow-right"></i></button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-}
+	@Base("Contact us") {
+		<section
+			class="hero-section position-relative"
+			style="background: url('/static/images/your-background.jpg') center center/cover no-repeat; min-height: 350px;"
+		>
+			<div class="position-absolute bottom-0 w-100" style="background: rgba(0,0,0,0.7);">
+				<h1 class="text-center text-white py-4 m-0 fw-bold" style="font-size:2.5rem;">Contact Us</h1>
+			</div>
+		</section>
+		<section class="py-5" style="background: white;">
+			<div class="container-fluid">
+				<div class="row justify-content-center">
+					<div class="col-md-8">
+						<div class="p-4  rounded shadow-sm" style="background: #dfd9d9;">
+							<h3 class="fw-bold mb-4">Contact Details</h3>
+							<div class="row">
+								<!-- Email (left) -->
+								<div class="col-md-4 text-start">
+									<i class="bi bi-envelope-fill fs-1" style="color: #888;"></i>
+									<div class="text-secondary fw-semibold"></div>
+									<div class="fw-bold" style="color: #d32f2f;">info@Chineducharity.com</div>
+								</div>
+								<!-- Phone NGN (center) -->
+								<div class="col-md-4 text-center">
+									<i class="bi bi-telephone-fill fs-1 " style="color: #888;"></i>
+									<span class="ms-2 text-secondary fw-semibold">NGN</span>
+									<div class="fw-bold" style="color: #d32f2f; white-space: nowrap;">
+										+234-8062925996
+										+234-7010191743
+									</div>
+								</div>
+								<!-- Phone USA (right) -->
+								<div class="col-md-4 text-end">
+									<i class="bi bi-telephone-fill fs-1 " style="color: #888;"></i>
+									<span class="ms-2 text-secondary fw-semibold">USA</span>
+									<div class="fw-bold" style="color: #d32f2f;">+1234564646</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="py-5" style="background: #cccccc;">
+			<div class="container">
+				<div class="row align-items-start" style="background: #ffffff">
+					<!-- Locate Us (left side) -->
+					<div class="col-md-6 mb-4 mb-md-0 d-flex align-items-start flex-column" style="padding: 40px;">
+						<h4 class="fw-bold mb-0">Locate Us</h4>
+						<div class="mt-3 w-100">
+							<div class="mb-2">
+								<span class="fw-bold">Corporate Headquarters</span>
+								<br/>
+								<span>No 176 Azikiwe Road Aba,<br/> Abia State</span>
+							</div>
+							<div>
+								<span class="fw-bold">Operational Base</span>
+								<br/>
+								<span>No 176 Azikiwe Road Aba, <br/>Abia State</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6 mb-4 mb-md-0 d-flex justify-content-md-end align-items-center flex-column">
+						<div class="w-100 d-flex align-items-center justify-content-end" style="padding: 40px;">
+							<h4 class="fw-bold mb-0 me-2">Corporate Headquarters</h4>
+							<div class="dropdown">
+								<button
+									class="btn btn-outline-secondary dropdown-toggle"
+									type="button"
+									id="hqDropdown"
+									data-bs-toggle="dropdown"
+									aria-expanded="false"
+								></button>
+								<ul class="dropdown-menu" aria-labelledby="hqDropdown">
+									<li>
+										<p class="dropdown-item mb-0">
+											<i class="bi bi-building me-2" style="color: #888;"></i>
+											No 176 Azikiwe Road Aba,
+											<br/>
+											Abia State
+										</p>
+									</li>
+									<li>
+										<hr class="dropdown-divider"/>
+									</li>
+									<!-- Add more locations if needed -->
+								</ul>
+							</div>
+						</div>
+						<!-- Google Map under Corporate Headquarters and dropdown -->
+						<div
+							class="w-100 mt-4 mb-4 d-flex  align-items-start justify-content-center"
+							style="padding: 10px; margin-right: 70px; margin-left: 10px;"
+						>
+							<iframe
+								src="https://www.google.com/maps?q=No+176+Azikiwe+Road+Aba,+Abia+State,+Nigeria&output=embed"
+								width="100%"
+								height="300"
+								style="border:0; max-width:600px; "
+								allowfullscreen=""
+								loading="lazy"
+								referrerpolicy="no-referrer-when-downgrade"
+							></iframe>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!--Newsletter starts-->
+		<section class="container bg-dark-green py-5 text-white">
+			<div class="container">
+				<div class="row align-items-center justify-content-center">
+					<div class="col-md-6 text-white text-center text-md-start mb-4 mb-md-0">
+						<p class="text-uppercase fw-bold mb-1">Get Latest Updates</p>
+						<h2 class="display-5 fw-bold mb-2">Sign Up Newsletter</h2>
+						<p class="text-muted">We won't spam your mailbox</p>
+					</div>
+					<div class="col-md-6">
+						<form class="d-flex flex-column flex-sm-row justify-content-center justify-content-md-end">
+							<input
+								type="email"
+								class="form-control form-control-lg me-sm-2 mb-2 mb-sm-0"
+								placeholder="Enter Email Address"
+							/>
+							<button type="submit" class="btn btn-warning btn-lg px-4">Subscribe Now</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!--Newsletter end-->
+		<!--before footer starts-->
+		<section>
+			<div class="container-fluid">
+				<div class="container mt-4 mb-4">
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12">
+							<img src="/static/images/Frame 2147223840.png" alt="" class="img-fluid"/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!--before footer ends-->
+		<!--footer-->
+		<footer class="bg-warning-subtle text-dark pt-5">
+			<div class="container">
+				<div class="row text-center text-md-start">
+					<!-- Brand Description -->
+					<div class="col-md-4 mb-4">
+						<h5 class="fw-bold">
+							<img src="/static/images/charity logo 2.png" alt="Logo" style="height: 24px;" class="me-2"/>
+							Chinedu Onyeizu
+							<br/>
+							Foundation
+						</h5>
+						<p class="text-dark">
+							We uphold the highest standards of honesty, transparency, and accountability in
+							all our actions.
+						</p>
+					</div>
+					<!-- Quick Links -->
+					<div class="col-md-2 mb-4">
+						<h6 class="fw-bold text-success">Quick Links</h6>
+						<ul class="list-unstyled">
+							<li><a href="#" class="text-dark text-decoration-none">Volunteer</a></li>
+							<li><a href="#" class="text-dark text-decoration-none">Donate</a></li>
+							<li><a href="#" class="text-dark text-decoration-none">Overview</a></li>
+							<li><a href="#" class="text-dark text-decoration-none">Projects</a></li>
+						</ul>
+					</div>
+					<!-- More Links -->
+					<div class="col-md-2 mb-4">
+						<h6 class="fw-bold text-success">More Links</h6>
+						<ul class="list-unstyled">
+							<li><a href="#" class="text-dark text-decoration-none">FAQS</a></li>
+							<li><a href="#" class="text-dark text-decoration-none">Privacy policies</a></li>
+							<li><a href="#" class="text-dark text-decoration-none">Testimony</a></li>
+						</ul>
+					</div>
+					<!-- Help Section -->
+					<div class="col-md-4 mb-4">
+						<h6 class="fw-bold text-success">Help</h6>
+						<p class="mb-1">
+							Email
+							<br/>
+							<a
+								href="mailto:support@chineducharity.com"
+								class="text-dark"
+							>support@chineducharity.com</a>
+						</p>
+						<p class="mb-1">Socials</p>
+						<div class="d-flex gap-3">
+							<a href="#" class="text-dark"><i class="bi bi-facebook fs-5"></i></a>
+							<a href="#" class="text-dark"><i class="bi bi-twitter fs-5"></i></a>
+							<a href="#" class="text-dark"><i class="bi bi-instagram fs-5"></i></a>
+							<a href="#" class="text-dark"><i class="bi bi-linkedin fs-5"></i></a>
+						</div>
+					</div>
+				</div>
+				<!-- Bottom Footer -->
+				<div class="row text-center text-md-start border-top pt-3 mt-3 small">
+					<div class="col-md-4">&copy; 2025 Chinedu charity. All rights reserved.</div>
+					<div class="col-md-4 text-md-center">Terms of Conditions</div>
+					<div class="col-md-4 text-md-end">Privacy Policy</div>
+				</div>
+			</div>
+		</footer>
+		<!--footer end-->
+	}
 }

@@ -1,0 +1,835 @@
+/* Custom CSS for your homepage */
+
+    body {
+        font-family: Arial, sans-serif; /* You can choose a different font */
+        line-height: 1.6;
+        color: #333;
+    }
+
+    .navbar {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,.08);
+    }
+
+    .navbar-brand {
+        display: flex;
+        align-items: center;
+        color: black !important; /* Ensure brand text is black */
+        font-weight: bold;
+        font-size: 15px; /* Changed from 24px to 15px based on your provided CSS */
+    }
+
+    .navbar-brand img {
+        height: 50px; /* Adjust as needed */
+    }
+
+    .nav-link {
+        font-weight: 500;
+        color: #333 !important;
+    }
+
+    .nav-link:hover {
+        color: #28a745 !important; /* Green color for hover */
+        text-decoration: underline;
+    }
+    .nav-link.active {
+        color: #28a745 !important; /* Green color for active */
+        text-decoration: underline;
+    }
+
+    .btn-donate {
+        color: #28a745;
+        border: 1px solid #28a745;
+        background-color: transparent;
+        font-weight: bold;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .btn-donate:hover {
+        background-color: #28a745; /* Changed to green on hover as per previous spec, your provided CSS had it transparent */
+        color: white; /* Added color: white on hover */
+        border: 1px solid #28a745; /* Keeping border on hover */
+    }
+
+    .btn-contact {
+        color: white;
+        border: 1px solid #28a745;
+        background-color: #28a745; /* Changed background-color to green, as specified */
+        font-weight: bold;
+        margin-left: 10px; /* Space between buttons */
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .btn-contact:hover {
+        background-color: darkgreen; /* Slightly darker green on hover for distinction */
+        color: white;
+    }
+
+    /* Hero Section (Slider) */
+    .hero-section {
+        position: relative;
+        height: 600px; /* Adjust height as needed */
+        overflow: hidden;
+    }
+
+    .hero-section .carousel-item img {
+        height: 600px; /* Ensure images fill the carousel item height */
+        object-fit: cover; /* Cover the area without distortion */
+        filter: brightness(0.6); /* Darken the image for text readability */
+    }
+
+    .hero-section .carousel-caption {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent overlay */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: #fff;
+        padding: 20px;
+    }
+
+    .hero-section .carousel-caption h1 {
+        font-size: 3.5rem; /* Adjust font size */
+        margin-bottom: 20px;
+    }
+
+    .hero-section .carousel-caption p {
+        font-size: 1.25rem;
+        max-width: 800px;
+        margin: 0 auto 30px auto;
+    }
+
+    /* Impact Section */
+    .impact-section .card {
+        transition: transform 0.3s ease;
+    }
+
+    
+
+    /* About Us Section */
+    .about-us-section img {
+        border-radius: 15px;
+    }
+    
+
+
+    /* Solutions Section */
+    .solutions-section .card {
+        border-radius: 15px;
+        transition: transform 0.3s ease;
+    }
+
+    .solutions-section .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .solutions-section .card-img-top {
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        height: 250px;
+        object-fit: cover;
+    }
+
+    /* Moments of Excellence Section */
+    .moments-section img {
+        border-radius: 15px;
+        height: 300px;
+        object-fit: cover;
+    }
+
+    /* Custom CSS for alignment */
+    .content-with-button {
+        /* No specific CSS needed here if using Bootstrap's d-flex, justify-content-between, align-items-center, flex-wrap */
+        /* This class is primarily a semantic wrapper for clarity in the HTML */
+    }
+
+    /* Ensure the paragraph takes up available space but doesn't push the button off */
+    .content-with-button .text {
+        text-align: left; /* Explicitly align text to the left */
+        /* Bootstrap's mb-0 (margin-bottom: 0) is good for removing default paragraph margin */
+        /* Bootstrap's flex-grow-1 and me-3 (margin-right: 1rem) are key for spacing */
+    }
+
+    /* Ensure the button doesn't shrink unnecessarily */
+    .content-with-button .btn {
+        /* Bootstrap's flex-shrink-0 (flex-shrink: 0) is good for keeping button size */
+    }
+
+    /* Responsive adjustment for small screens */
+    @media (max-width: 576px) { /* Adjust breakpoint as needed, e.g., Bootstrap's 'sm' breakpoint */
+        .content-with-button {
+            flex-direction: column; /* Stack items vertically on small screens */
+            align-items: flex-start; /* Align items to the left when stacked */
+        }
+
+        .content-with-button .text {
+            margin-bottom: 1rem !important; /* Add some space below the paragraph when stacked */
+            margin-right: 0 !important; /* Remove right margin when stacked */
+        }
+
+        .content-with-button .btn {
+            width: 100%; /* Make button full width when stacked */
+            text-align: center; /* Center button text when full width */
+        }
+    }
+
+    /* Join Our Journey Section */
+    .join-journey-section img {
+        border-radius: 15px;
+    }
+    .bg-volunteer{
+        background-color: #ffE9B1 !important;
+    }
+
+    /* Newsletter Section */
+    .newsletter-section .form-control-lg {
+        border-radius: 30px;
+        padding: 15px 25px;
+    }
+
+    .newsletter-section .btn-lg {
+        border-radius: 30px;
+        padding: 15px 40px;
+        font-size: 1.2rem;
+    }
+
+    /* Donate CTA Section */
+    .donate-cta {
+        background-color: #28a745; /* Matching green with other elements */
+        padding: 80px 0;
+    }
+
+    .donate-cta .btn-light {
+        font-size: 1.5rem;
+    }
+
+    /* Footer */
+    .footer {
+        background-color: #343a40; /* Dark background for footer */
+        color: #ccc;
+    }
+
+    .footer a {
+        color: #ccc;
+    }
+
+    .footer a:hover {
+        color: #fff;
+    }
+
+  .green-divider {
+      border-left: 10px solid #00FF57;
+      height: 100%;
+    }
+
+    .about-btn {
+      background-color: #00FF57;
+      color: black;
+      font-weight: bold;
+    }
+
+    .about-btn:hover {
+      background-color: #00cc44;
+      color: white;
+    }
+
+    .heading {
+      font-weight: 700;
+    }
+
+    .arrow {
+      color: #00FF57;
+      margin-right: 10px;
+    }
+
+  .section-title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .highlight-tag {
+      background-color: #fcefcf;
+      color: #000;
+      padding: 4px 12px;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+
+    .solution-card {
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+
+    .solution-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .solution-card h5 {
+      font-weight: 600;
+      color: #000;
+    }
+
+    .solution-card p {
+      color: #333;
+    }
+
+    .btn-green {
+      background-color: #00cc66;
+      color: white;
+      font-weight: 500;
+      border-radius: 30px;
+      padding: 10px 25px;
+      border: none;
+    }
+
+    .btn-green:hover {
+      background-color: #00a04d;
+    }
+
+    .bg-dark-green {
+        background-color: #0d4a0d; /* Adjust this to your exact green shade */
+        /* If you have a background pattern image, you'd add: */
+        /* background-image: url('path/to/your/pattern.png'); */
+        /* background-size: cover; */
+        /* background-position: center; */
+    }
+
+
+    .text-muted {
+        color: rgba(255, 255, 255, 0.7) !important; /* Lighter white for contrast */
+    }
+
+    /* Adjust button and input styling if needed */
+    .btn-warning {
+        background-color: #f7b400; /* Adjust this to your exact golden color */
+        border-color: #f7b400;
+    }
+
+    .form-control {
+        background-color: white;
+        color: #333;
+    }
+    @media (min-width: 992px) { /* Applies from large (lg) breakpoint and up */
+        .navbar-collapse .d-flex {
+            margin-left: 60px; /* Adjust this value for more or less space */
+        }
+    }
+
+
+
+
+
+    .main-container {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden; /* Ensures background and content stay within bounds */
+        display: flex; /* Use flexbox for layout */
+        flex-direction: column; /* Stack content vertically */
+        justify-content: space-between; /* Push content to the bottom */
+        align-items: center; /* Center horizontally */
+        background-image: var(--page-background-image);
+        background-size: cover;
+        background-position: center;
+        color: white; /* Text color over background */
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Enhance text readability */
+    }
+
+    .background-content {
+        display: flex;
+        justify-content: space-between; /* Space out left and right content */
+        align-items: flex-start; /* Align items to the top */
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box; /* Include padding in width */
+        flex-grow: 1; /* Allow this section to grow and take available space */
+    }
+
+
+
+    .left-content {
+        flex: 1; /* Take remaining space */
+        padding-right: 20px;
+        text-align: left;
+        max-width: 60%; /* Limit width of left content */
+        /* If left-content is empty, this makes it less visually intrusive */
+        min-height: 10px; /* Give it a minimal height so flexbox still considers it */
+        background-color: rgba(170, 166, 166, 0.6); /* Make it fully transparent */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Remove any shadow */
+        overflow: hidden; /* Hide any accidental scrollbars */
+        padding: 0; /* Remove padding if empty */
+    }
+
+
+    .left-content.project-display-area {
+        /* If this class is still applied when empty, ensure its background/shadow are removed */
+        background-color: rgba(0, 0, 0, 0);
+        box-shadow: none;
+        padding: 0; /* No padding if content is removed */
+    }
+
+    .right-media {
+        flex-basis: 360px; /* Fixed width for the media section */
+        padding: 20px;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column; /* Stack items vertically */
+        gap: 10px; /* Space between media items */
+        align-items: center; /* Center items horizontally within right-media */
+        /* --- KEY CHANGE: Removed overflow-y and max-height here --- */
+        /* overflow-y: auto; */
+        /* max-height: calc(100vh - 180px); */
+    }
+
+    .media-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center content within each media-item */
+        text-align: center;
+    }
+
+    .media-item img {
+        max-width: 100%; /* Ensure images don't overflow their container */
+        height: auto; /* Maintain aspect ratio */
+        border: none; /* No border for these images based on your request */
+        border-radius: 5px; /* Keep rounded corners */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+        /* Adjust these values to control the overall size of each image */
+        width: 250px; /* Set a specific width for images */
+        height: auto; /* Maintain aspect ratio */
+    }
+
+
+    .button-container-after {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        padding: 0 30px;
+        box-sizing: border-box;
+        background-color: #A3A3A3;
+        border-radius: 10px; /* Optional: adds a slight rounded corner to the container */
+        padding: 15px 30px
+    }
+    .button-container-before {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        padding: 0 30px;
+        box-sizing: border-box;
+    background-color:#222222;
+        border-radius: 10px; /* Optional: adds a slight rounded corner to the container */
+        padding: 15px 30px
+    }
+
+    .button-group {
+        display: flex;
+        gap: 15px;
+    }
+
+    .btn-before {
+        color: #d5d8d6;
+        border: 1px solid #d5d8d6;
+        background-color: transparent;
+        font-weight: bold;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .btn-before:hover { 
+        background-color: white;
+        color: black; 
+        border-color: white; 
+    }
+    .btn-before.active { 
+        background-color: white; 
+        color: black;  
+        border: 1px solid #d5d8d6; 
+    }
+
+    .btn-after {
+        color: white;
+        border: 1px solid #d5d8d6;
+        background-color: transparent;
+        font-weight: bold;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .btn-after:hover { /* Hover state for "After" */
+        background-color: white; /* White background on hover */
+        color: black; /* Black text on hover */
+        border-color: white; /* Keep border white */
+    }
+    .btn-after.active { 
+        background-color: white; 
+        color: black;  
+        border: 1px solid #d5d8d6; 
+    }
+
+    .right-bottom-elements {
+        display: flex;
+        align-items: flex-end;
+    }
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .background-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .left-content, .right-media {
+        max-width: 90%;
+        margin-bottom: 20px;
+    }
+
+    .left-content.project-display-area {
+        max-height: auto; /* Allow height to adjust on small screens if content is added */
+    }
+
+    .right-media {
+        flex-basis: auto;
+        width: 100%;
+        max-height: 60vh; /* Adjust max height for scrolling on small screens */
+    }
+
+    .media-item img {
+        width: 180px; /* Smaller images on small screens */
+    }
+
+    .button-container {
+        position: static;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        padding: 0 20px;
+    }
+
+    .button-group, .right-bottom-elements {
+        margin-bottom: 15px;
+        justify-content: center;
+        width: 100%;
+    }
+}
+
+/* Custom button color */
+.btn-custom-donate {
+    background-color: #28a745;
+    border-color:#28a745; /* Keep border color consistent */
+    color: dark; /* Ensure text is readable */
+    font-weight: bold;
+}
+
+.btn-custom-donate:hover {
+    background-color:  darkgreen; /* A slightly darker shade for hover effect */
+    border-color:darkgreen;
+    color: white;
+}
+
+
+  .card-img-top {
+        height: 100px;
+        object-fit: cover;
+    }
+    .card {
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        border: none;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .card:hover {
+        /*transform: translateY(-5px);*/
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    .progress {
+        height: 10px;
+    }
+    .progress-bar {
+        background-color: #2e613a;
+    }
+
+
+.joined-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: stretch; /* IMPORTANT: Allows flex items to stretch to fill the container's height */
+    font-size: 0;
+    line-height: 0;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.joined-image {
+    width: 50%; /* Each image takes up half the container width */
+    height: 300px; /* Set a fixed height here, or calculate dynamically if needed */
+                     /* Alternatively, set height to 100% and let 'align-items: stretch' work */
+    object-fit: cover; /* IMPORTANT: Crops the image to fit without distortion, filling the space */
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+/* Optional: If you want a subtle effect, like a tiny border where they meet */
+.left-image {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.right-image {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+/* --- */
+/* Responsive adjustment: Stack them on smaller screens */
+@media (max-width: 768px) {
+    .joined-image-container {
+        flex-direction: column;
+        align-items: center;
+        font-size: initial;
+        line-height: initial;
+    }
+
+    .joined-image {
+        width: 100%; /* Each image takes full width when stacked */
+        height: auto; /* Reset height to auto when stacked to avoid excessive cropping */
+        object-fit: unset; /* Reset object-fit when stacked */
+
+        /* Reset individual image border-radius */
+        border-radius: 0;
+    }
+
+    /* Adjust rounded corners for stacked images */
+    .left-image {
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .right-image {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+    }
+}
+
+
+     .login-container {
+            height: 100vh;
+        }
+        .image-side {
+            background-image: url('https://source.unsplash.com/random/1200x900/?office,workspace');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 100vh; /* This is the key change */
+        }
+       
+        @media (max-width: 991.98px) {
+    .image-side {
+        padding-top: 10;
+        margin-top: 0;
+        /* Ensures the image itself is centered if it doesn't fill the space */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+        .form-side {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .form-container {
+            max-width: 400px;
+            width: 100%;
+        }
+
+       
+    /* Overall page background, so the button container stands out */
+    /*.admin-page-bg {
+        background-color: #f8f9fa;
+    }*/
+
+/* Container styling, with the requested background and a border */
+.admin-container {
+    background-color: #C7FFC7; /* The color you specified for the container */
+   /* border: 2px solid #5EA65E;*/
+    padding: 30px; /* Increased padding to "expand the container more" */
+    width: 550px; /* A fixed width to make it larger */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Inactive button styling */
+.btn-project, .btn-blog {
+    background-color: #5EA65E;
+    color: white;
+    margin: 0 10px; /* Increased margin for more space between buttons */
+    padding: 10px 25px; /* Added padding to make buttons larger */
+    border: none; /* Removed default button border */
+    transition: background-color 0.3s ease;
+}
+
+/* Active button styling */
+.btn-project:hover, .btn-project:active, .btn-project:focus,
+.btn-blog:hover, .btn-blog:active, .btn-blog:focus {
+    background-color: #00914B !important;
+    color: white !important;
+}
+
+/* Styling for the top buttons */
+.project-btn {
+    background-color: transparent; /* No background color when inactive */
+    color: #00A008;
+    border: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.project-btn:hover,
+.project-btn:active,
+.project-btn:focus {
+    background-color: #00914B !important;
+    color: white !important;
+}
+
+/* Styling for the horizontal line */
+/*.project-divider {
+    border-top: 1px solid #ccc;
+}*/
+
+
+.project-buttons button {
+    color: white;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: none;
+    padding: 8px 16px;
+    flex-grow: 1; /* Allows buttons to grow to fill space */
+}
+
+/* Specific button colors */
+.btn-edit,
+.btn-adjust,
+.btn-complete {
+    background-color: #00914B;
+}
+
+.btn-delete {
+    background-color: #FF0000;
+}
+
+/* Hover effects */
+.btn-edit:hover, .btn-edit:focus, .btn-edit:active,
+.btn-adjust:hover, .btn-adjust:focus, .btn-adjust:active,
+.btn-complete:hover, .btn-complete:focus, .btn-complete:active {
+    background-color: #007a3c !important;
+}
+
+.btn-delete:hover, .btn-delete:focus, .btn-delete:active {
+    background-color: #cc0000 !important;
+}
+
+/*adjust price*/
+.form-border-container {
+    border: 1px solid #888888;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 70%; /* Adjust this value to change the form's width */
+    margin: 0 auto;
+}
+/* Button Inactive State */
+.btn-cancel,
+.btn-proceed {
+    background-color: #888888;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+/* Button Active/Hover State */
+.btn-cancel:hover,
+.btn-proceed:hover,
+.btn-cancel:active,
+.btn-proceed:active,
+.btn-cancel:focus,
+.btn-proceed:focus {
+    background-color: #00A008 !important;
+    color: white;
+}
+
+/* Optional: To make the form look better */
+.form-control {
+    border-radius: 5px ;
+}
+
+/* edit project*/
+.before-after-btn {
+    background-color: white;
+    color: #00A008;
+    border: 1px solid #00A008;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.before-after-btn:hover,
+.before-after-btn:active,
+.before-after-btn:focus {
+    background-color: #00A008 !important;
+    color: white !important;
+}
+
+.go-back-btn {
+    background-color: transparent;
+    color: #00A008;
+    border: none;
+}
+
+.go-back-btn:hover,
+.go-back-btn:active,
+.go-back-btn:focus {
+    color: #007005 !important; /* A slightly darker green on hover */
+}
+
+.upload-box {
+    border: 1px solid #00A008; /* Default border color and style */
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.upload-box:hover {
+    border-color: #007a3c; /* A slightly darker green on hover */
+}

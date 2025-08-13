@@ -20,8 +20,42 @@ func main() {
 			return
 		}
 	})
+
+	// Projects page
+	router.GET("/projects", func(c *gin.Context) {
+		err := components.Projects().Render(c, c.Writer) // Use your actual projects template
+		if err != nil {
+			c.String(500, "Error rendering template: %v", err)
+			return
+		}
+	})
+
+	router.GET("/about", func(c *gin.Context) {
+		err := components.About("About us").Render(c, c.Writer)
+		if err != nil {
+			c.String(500, "Error rendering template: %v", err)
+			return
+		}
+	})
+
+	router.GET("/blog", func(c *gin.Context) {
+		err := components.Blog().Render(c, c.Writer)
+		if err != nil {
+			c.String(500, "Error rendering template: %v", err)
+			return
+		}
+	})
+
 	router.GET("/volunteer", func(c *gin.Context) {
-		err := components.VolunteerForm("Become a volunteer").Render(c, c.Writer)
+		err := components.Volunteer().Render(c, c.Writer)
+		if err != nil {
+			c.String(500, "Error rendering template: %v", err)
+			return
+		}
+	})
+
+	router.GET("/donate", func(c *gin.Context) {
+		err := components.Donate().Render(c, c.Writer)
 		if err != nil {
 			c.String(500, "Error rendering template: %v", err)
 			return
@@ -30,22 +64,6 @@ func main() {
 
 	router.GET("/contact", func(c *gin.Context) {
 		err := components.Contact().Render(c, c.Writer)
-		if err != nil {
-			c.String(500, "Error rendering template: %v", err)
-			return
-		}
-	})
-
-	router.GET("/coming-soon", func(c *gin.Context) {
-		err := components.ComingSoon().Render(c, c.Writer)
-		if err != nil {
-			c.String(500, "Error rendering template: %v", err)
-			return
-		}
-	})
-
-	router.GET("/cause", func(c *gin.Context) {
-		err := components.Causes().Render(c, c.Writer)
 		if err != nil {
 			c.String(500, "Error rendering template: %v", err)
 			return
