@@ -163,3 +163,42 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial fetch of projects
     fetchProjects();
 });
+    
+    //New code here
+  document.getElementById('copyBtn').addEventListener('click', function() {
+    const accountNumber = document.getElementById('accountNumber').innerText;
+    navigator.clipboard.writeText(accountNumber).then(function() {
+        alert('Account number copied to clipboard!');
+    }, function(err) {
+        console.error('Could not copy text: ', err);
+    });
+});
+   
+document.getElementById('confirmTransferBtn').addEventListener('click', function() {
+    // Here you can add logic to show a thank you message,
+    // redirect to a new page, or trigger an email.
+    alert('Thank you for your donation! We appreciate your support.');
+
+    // This is a new part of the script
+    // It fetches the content of the external file
+    fetch('donate-form.html')
+        .then(response => response.text())
+        .then(data => {
+            // Now, it injects the form into your main page
+            const formContainer = document.getElementById('form-container'); // You need to add this ID to a div on your page
+            formContainer.innerHTML = data;
+        });
+});
+
+document.querySelector('#confirmation-form form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevents the page from reloading
+
+    // ... your logic for collecting form data goes here
+
+    // === Show the Thank You Pop-Up ===
+    const thankYouModal = new bootstrap.Modal(document.getElementById('thankYouModal'));
+    thankYouModal.show();
+
+    // You can also reset the form after submission
+    event.target.reset();
+});

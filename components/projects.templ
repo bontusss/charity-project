@@ -47,11 +47,75 @@ templ Projects() {
 						<div id="project-progress-bar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
 					</div>
 					<div class="text-center">
-						<a href="/statiic//donate.html" class="btn btn-custom-donate btn-lg w-100">Donate</a>
+				 <button type="button" class="btn btn-custom-donate btn-lg w-100" data-bs-toggle="modal" data-bs-target="#donationModal">
+                 Donate</button>
+          </div>
+		<div class="modal fade" id="donationModal" tabindex="-1" aria-labelledby="donationModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+					   <p>Please make your donation to the following bank account details.</p>
+						<h5 class="modal-title" id="donationModalLabel">Make Your Donations Through</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body text-center">
+						
+						<div class="card bg-light p-3 mb-3">
+							<h6 class="text-muted mb-1">Bank Name</h6>
+							<h4 class="fw-bold" id="bankName">Firstbank</h4>
+						</div>
+						    
+			            <div class="card bg-light p-3 mb-3">
+							<h6 class="text-muted mb-1">Account Name</h6>
+							<h4 class="fw-bold" id="bankName">chineducharity</h4>
+						</div>
+						<div class="card bg-light p-3 mb-3">
+							<h6 class="text-muted mb-1">Account Number</h6>
+							<div class="d-flex justify-content-center align-items-center">
+								<h4 class="fw-bold mb-0 me-2" id="accountNumber">#11139475867</h4>
+								<button class="btn btn-outline-secondary btn-sm" id="copyBtn" data-clipboard-target="#accountNumber">
+									<i class="fas fa-copy"></i> Copy
+								</button>
+							</div>
+						</div>
+						<!--<p class="mt-4">
+							After making the transfer, please click the button below to confirm.
+						</p>-->
+					</div>
+					<div class="modal-footer d-flex justify-content-center">
+						<button type="button" class="btn btn-success btn-lg" data-bs-dismiss="modal" id="confirmTransferBtn">
+							I have made a transfer
+						</button>
 					</div>
 				</div>
 			</div>
 		</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="thankYouModal" tabindex="-1" aria-labelledby="thankYouModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="thankYouModalLabel">Thank You! 🎉</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <p>Thanks for Donating to **Chineducharityfoundation**!</p>
+                <p>We've received your information and will be in touch shortly to confirm your donation.</p>
+                <hr>
+                <div class="contact-info">
+                    <p class="mb-1">For More Inquiries:</p>
+                    <p class="mb-1"><strong>Email:</strong> Info@cheducharityfoundation.com</p>
+                    <p><strong>Call:</strong> 09034646364646</p>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 		<!--our story end-->
 		<!--ongoing project starts-->
 		<div class="container my-5">
@@ -165,7 +229,7 @@ templ Projects() {
                 <h6 class="fw-bold text-success">Quick Links</h6>
                 <ul class="list-unstyled">
                 <li><a href="#" class="text-dark text-decoration-none">Volunteer</a></li>
-                <li><a href="#" class="text-dark text-decoration-none">Donate</a></li>
+               <li><a href="#" class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#donationModal">Donate</a></li>
                 <li><a href="#" class="text-dark text-decoration-none">Overview</a></li>
                 <li><a href="#" class="text-dark text-decoration-none">Projects</a></li>
                 </ul>
