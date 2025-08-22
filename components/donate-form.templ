@@ -1,0 +1,27 @@
+<div id="confirmation-form" class="container mt-5">
+    <h2 class="text-center mb-4">Confirm Your Donation</h2>
+    <p class="text-center">Please fill out this form so we can confirm your transfer and send a receipt.</p>
+    <form>
+        <div class="mb-3">
+            <label for="donor-name" class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="donor-name" placeholder="John Doe" required>
+        </div>
+        <div class="mb-3">
+            <label for="amount-donated" class="form-label">Amount Donated</label>
+            <input type="number" class="form-control" id="amount-donated" placeholder="e.g., 5000" required>
+        </div>
+        <div class="mb-3">
+            <label for="project-choice" class="form-label">Choose the Project</label>
+            <select class="form-select" id="project-choice" required>
+                <option selected disabled value="">Select a project...</option>
+                <option value="project1">Project 1: Clean Water Initiative</option>
+                <option value="project2">Project 2: Educational Outreach</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="phone-number" class="form-label">Phone Number</label>
+            <input type="tel" class="form-control" id="phone-number" placeholder="e.g., 0801 234 5678" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100 btn-lg">Submit</button>
+    </form>
+</div>
