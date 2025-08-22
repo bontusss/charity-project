@@ -1,0 +1,41 @@
+package components
+
+templ Login(err string) {
+	@Base("admin login") {
+		<div class="container-fluid login-container">
+			<div class="row h-100">
+				<div class="col-12 col-lg-6 image-side">
+					<img src="/static/images/Blog 3.jpg" alt="Join Our Journey" class="img-fluid rounded shadow-lg"/>
+				</div>
+
+				<div class="col-12 col-lg-6 form-side mt-2">
+					<div class="form-container">
+						<h2 class="text-center mb-4">Welcome Back!</h2>
+						<p class="text-center  mb-4">Please put your details to sign in.</p>
+						if err != "" {
+						<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+							<p class="text-red-700">{ err }</p>
+						</div>
+					}
+						<form hx-post="/api/login" hx-target="body">
+							<div class="mb-3">
+								<label for="email" class="form-label">Email address</label>
+								<input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" required/>
+							</div>
+							<div class="mb-3">
+								<label for="password" class="form-label">Password</label>
+								<input type="password" name="password" class="form-control" id="password" required/>
+							</div>
+							<div class="d-grid gap-2">
+								<button type="submit" class="btn btn-success btn-lg">Sign In</button>
+							</div>
+						</form>
+						<button class="text-center btn-success mt-3" type="submit">
+							Don't have an account? <a class="text-success" href="sign-up.html">Sign Up</a>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+}

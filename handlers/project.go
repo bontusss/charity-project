@@ -1,0 +1,310 @@
+package handlers
+
+import (
+	"charity/internal/services"
+	"net/http"
+	"strconv"
+
+	"github.com/gin-gonic/gin"
+)
+
+type ProjectHandler struct {
+	projectService *services.ProjectService
+}
+
+func NewProjectHandler(projectService *services.ProjectService) *ProjectHandler {
+	return &ProjectHandler{
+		projectService: projectService,
+	}
+}
+
+// CreateProject creates a new project (admin only)
+func (h *ProjectHandler) CreateProject(c *gin.Context) {
+	var req struct {
+		Name string `json:"name" binding:"required"`
+	}
+
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request data"})
+		return
+	}
+
+	project, err := h.projectService.CreateProject(c.Request.Context(), req.Name)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{
+		"message": "Project created successfully",
+		"project": project,
+	})
+}
+
+// GetProject retrieves a project by ID
+func (h *ProjectHandler) GetProject(c *gin.Context) {
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid project ID"})
+		return
+	}
+
+	project, err := h.projectService.GetProject(c.Request.Context(), int32(id))
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Project not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"project": project})
+}
+
+// ListProjects retrieves all projects
+func (h *ProjectHandler) ListProjects(c *gin.Context) {
+	projects, err := h.projectService.ListProjects(c.Request.Context())
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"projects": projects})
+}
+
+// UpdateProject updates a project (admin only)
+func (h *ProjectHandler) UpdateProject(c *gin.Context) {
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid project ID"})
+		return
+	}
+
+	var req struct {
+		Name string `json:"name" binding:"required"`
+	}
+
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request data"})
+		return
+	}
+
+	project, err := h.projectService.UpdateProject(c.Request.Context(), int32(id), req.Name)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Project updated successfully",
+		"project": project,
+	})
+}
+
+// DeleteProject deletes a project (admin only)
+func (h *ProjectHandler) DeleteProject(c *gin.Context) {
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid project ID"})
+		return
+	}
+
+	if err := h.projectService.DeleteProject(c.Request.Context(), int32(id)); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Project deleted successfully"})
+}
+
+// CreateProjectBefore creates or updates project "before" section (admin only)
+func (h *ProjectHandler) CreateProjectBefore(c *gin.Context) {
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid project ID"})
+		return
+	}
+
+	var req struct {
+		Body            string `json:"body" binding:"required"`
+		EstimatedTarget string `json:"estimated_target" binding:"required"`
+		VideoLink       string `json:"video_link"`
+	}
+
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request data"})
+		return
+	}
+
+	projectBefore, err := h.projectService.CreateProjectBefore(c.Request.Context(), int32(id), req.Body, req.EstimatedTarget, req.VideoLink)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message":        "Project before section saved successfully",
+		"project_before": projectBefore,
+	})
+}
+
+// GetProjectBefore retrieves project "before" section
+func (h *ProjectHandler) GetProjectBefore(c *gin.Context) {
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid project ID"})
+		return
+	}
+
+	projectBefore, err := h.projectService.GetProjectBefore(c.Request.Context(), int32(id))
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Project before section not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"project_before": projectBefore})
+}
+
+// CreateProjectAfter creates or updates project "after" section (admin only)
+func (h *ProjectHandler) CreateProjectAfter(c *gin.Context) {
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid project ID"})
+		return
+	}
+
+	var req struct {
+		Body        string `json:"body" binding:"required"`
+		ProjectCost string `json:"project_cost"`
+		VideoLink   string `json:"video_link"`
+	}
+
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request data"})
+		return
+	}
+
+	projectAfter, err := h.projectService.CreateProjectAfter(c.Request.Context(), int32(id), req.Body, req.ProjectCost, req.VideoLink)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message":       "Project after section saved successfully",
+		"project_after": projectAfter,
+	})
+}
+
+// GetProjectAfter retrieves project "after" section
+func (h *ProjectHandler) GetProjectAfter(c *gin.Context) {
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid project ID"})
+		return
+	}
+
+	projectAfter, err := h.projectService.GetProjectAfter(c.Request.Context(), int32(id))
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Project after section not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"project_after": projectAfter})
+}
+
+// UploadProjectImage uploads an image for a project (admin only)
+func (h *ProjectHandler) UploadProjectImage(c *gin.Context) {
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid project ID"})
+		return
+	}
+
+	phase := c.PostForm("phase")
+	if phase == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Phase is required"})
+		return
+	}
+
+	file, err := c.FormFile("image")
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "No image file provided"})
+		return
+	}
+
+	projectImage, err := h.projectService.UploadProjectImage(c.Request.Context(), int32(id), phase, file)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Image uploaded successfully",
+		"image":   projectImage,
+	})
+}
+
+// ListProjectImages retrieves all images for a project
+func (h *ProjectHandler) ListProjectImages(c *gin.Context) {
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid project ID"})
+		return
+	}
+
+	images, err := h.projectService.ListProjectImages(c.Request.Context(), int32(id))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"images": images})
+}
+
+// ListProjectImagesByPhase retrieves images for a project by phase
+func (h *ProjectHandler) ListProjectImagesByPhase(c *gin.Context) {
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid project ID"})
+		return
+	}
+
+	phase := c.Query("phase")
+	if phase == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Phase parameter is required"})
+		return
+	}
+
+	images, err := h.projectService.ListProjectImagesByPhase(c.Request.Context(), int32(id), phase)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"images": images})
+}
+
+// DeleteProjectImage deletes a project image (admin only)
+func (h *ProjectHandler) DeleteProjectImage(c *gin.Context) {
+	imageIDStr := c.Param("image_id")
+	imageID, err := strconv.Atoi(imageIDStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid image ID"})
+		return
+	}
+
+	if err := h.projectService.DeleteProjectImage(c.Request.Context(), int32(imageID)); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Image deleted successfully"})
+}
