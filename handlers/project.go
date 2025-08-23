@@ -100,6 +100,36 @@ func (h *ProjectHandler) UpdateProject(c *gin.Context) {
 	})
 }
 
+// UpdateProjectStatus updates a project's status (admin only)
+func (h *ProjectHandler) UpdateProjectStatus(c *gin.Context) {
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid project ID"})
+		return
+	}
+
+	var req struct {
+		Status string `json:"status" binding:"required,oneof=ongoing completed"`
+	}
+
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request data"})
+		return
+	}
+
+	project, err := h.projectService.UpdateProjectStatus(c.Request.Context(), int32(id), req.Status)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Project status updated successfully",
+		"project": project,
+	})
+}
+
 // DeleteProject deletes a project (admin only)
 func (h *ProjectHandler) DeleteProject(c *gin.Context) {
 	idStr := c.Param("id")
@@ -129,6 +159,7 @@ func (h *ProjectHandler) CreateProjectBefore(c *gin.Context) {
 	var req struct {
 		Body            string `json:"body" binding:"required"`
 		EstimatedTarget string `json:"estimated_target" binding:"required"`
+		CurrentFunds    string `json:"current_funds" binding:"required"`
 		VideoLink       string `json:"video_link"`
 	}
 
@@ -137,7 +168,7 @@ func (h *ProjectHandler) CreateProjectBefore(c *gin.Context) {
 		return
 	}
 
-	projectBefore, err := h.projectService.CreateProjectBefore(c.Request.Context(), int32(id), req.Body, req.EstimatedTarget, req.VideoLink)
+	projectBefore, err := h.projectService.CreateProjectBefore(c.Request.Context(), int32(id), req.Body, req.EstimatedTarget, req.CurrentFunds, req.VideoLink)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

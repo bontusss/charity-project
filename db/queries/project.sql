@@ -1,6 +1,6 @@
 -- name: CreateProject :one
-INSERT INTO projects (name)
-VALUES ($1)
+INSERT INTO projects (name, status)
+VALUES ($1, 'ongoing')
 RETURNING *;
 
 -- name: GetProject :one
@@ -12,9 +12,21 @@ LIMIT 1;
 SELECT * FROM projects
 ORDER BY created_at DESC;
 
+-- name: ListProjectsByStatus :many
+SELECT * FROM projects
+WHERE status = $1
+ORDER BY created_at DESC;
+
 -- name: UpdateProject :one
 UPDATE projects
 SET name = $2,
+    updated_at = NOW()
+WHERE id = $1
+RETURNING *;
+
+-- name: UpdateProjectStatus :one
+UPDATE projects
+SET status = $2,
     updated_at = NOW()
 WHERE id = $1
 RETURNING *;
@@ -24,8 +36,8 @@ DELETE FROM projects
 WHERE id = $1;
 
 -- name: CreateProjectBefore :one
-INSERT INTO project_before (project_id, body, estimated_target, video_link)
-VALUES ($1, $2, $3, $4)
+INSERT INTO project_before (project_id, body, estimated_target, current_funds, video_link)
+VALUES ($1, $2, $3, $4, $5)
 RETURNING *;
 
 -- name: GetProjectBefore :one
@@ -37,7 +49,8 @@ LIMIT 1;
 UPDATE project_before
 SET body = $2,
     estimated_target = $3,
-    video_link = $4,
+    current_funds = $4,
+    video_link = $5,
     updated_at = NOW()
 WHERE project_id = $1
 RETURNING *;
@@ -92,3 +105,4 @@ WHERE id = $1;
 -- name: DeleteAllProjectImages :exec
 DELETE FROM project_images
 WHERE project_id = $1;
+

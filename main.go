@@ -105,16 +105,16 @@ func main() {
 		}
 	})
 
-	router.GET("/donate", func(c *gin.Context) {
-		err := components.Donate().Render(c, c.Writer)
+	router.GET("/contact", func(c *gin.Context) {
+		err := components.Contact().Render(c, c.Writer)
 		if err != nil {
 			c.String(500, "Error rendering template: %v", err)
 			return
 		}
 	})
 
-	router.GET("/contact", func(c *gin.Context) {
-		err := components.Contact().Render(c, c.Writer)
+	router.GET("/login", func(c *gin.Context) {
+		err := components.Login("").Render(c, c.Writer)
 		if err != nil {
 			c.String(500, "Error rendering template: %v", err)
 			return
@@ -143,6 +143,7 @@ func main() {
 		protected.PUT("/api/projects/:id/after", projectHandlers.CreateProjectAfter)
 		protected.POST("/api/projects/:id/images", projectHandlers.UploadProjectImage)
 		protected.DELETE("/api/projects/images/:image_id", projectHandlers.DeleteProjectImage)
+		protected.PUT("/api/projects/:id/status", projectHandlers.UpdateProjectStatus)
 	}
 
 	// Public project routes (no authentication required)

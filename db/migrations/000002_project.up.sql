@@ -2,6 +2,7 @@
 CREATE TABLE projects (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
+    status VARCHAR(255) NOT NULL CHECK (status IN ('ongoing', 'completed')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT NOW()
 );
@@ -11,6 +12,7 @@ CREATE TABLE project_before (
     project_id INT PRIMARY KEY REFERENCES projects(id) ON DELETE CASCADE,
     body TEXT NOT NULL,
     estimated_target INTEGER NOT NULL,
+    current_funds INTEGER NOT NULL,
     video_link VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT NOW()

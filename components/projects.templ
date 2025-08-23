@@ -267,5 +267,149 @@ templ Projects() {
             </div>
         </div>
     </footer>
+
+		<script>
+		// Projects page dynamic behavior
+		document.addEventListener('DOMContentLoaded', () => {
+			loadAndRenderProjects();
+			setupBeforeAfterToggle();
+		});
+
+		async function loadAndRenderProjects() {
+			try {
+				const res = await fetch('/api/projects');
+				if (!res.ok) return;
+				const { projects } = await res.json();
+				const ongoing = projects.filter(p => p.status === 'ongoing');
+				const completed = projects.filter(p => p.status === 'completed');
+				renderProjectCards('ongoing-projects-container', ongoing);
+				renderProjectCards('completed-projects-container', completed);
+			} catch (e) { console.error(e); }
+		}
+
+		function renderProjectCards(containerId, list) {
+			const container = document.getElementById(containerId);
+			if (!container) return;
+			container.innerHTML = list.map(p => `
+				<div class="col-12 col-md-6 col-lg-4">
+					<div class="card h-100">
+						<div class="card-body d-flex flex-column">
+							<h5 class="card-title">${p.name}</h5>
+							<button class="btn btn-success mt-auto" onclick="onProjectSelected(${p.id})">View</button>
+						</div>
+					</div>
+				</div>
+			`).join('');
+		}
+
+		async function onProjectSelected(projectId) {
+			try {
+				const [beforeRes, afterRes, imagesRes] = await Promise.all([
+					fetch(`/api/projects/${projectId}/before`),
+					fetch(`/api/projects/${projectId}/after`),
+					fetch(`/api/projects/${projectId}/images`)
+				]);
+
+				let before = null, after = null, images = [];
+				if (beforeRes.ok) { const d = await beforeRes.json(); before = d.project_before; }
+				if (afterRes.ok) { const d = await afterRes.json(); after = d.project_after; }
+				if (imagesRes.ok) { const d = await imagesRes.json(); images = d.images || []; }
+
+				populateBanner(before, after, images);
+				populateProgress(before);
+				populateTexts(before, after);
+				populateVideoLinks(before, after);
+			} catch (e) { console.error(e); }
+		}
+
+		function populateBanner(before, after, images) {
+			const left = document.querySelector('.left-content.project-display-area');
+			const right = document.getElementById('project-media-display');
+			if (!left || !right) return;
+
+			const beforeImgs = images.filter(i => i.phase === 'before');
+			const afterImgs = images.filter(i => i.phase === 'after');
+
+			left.innerHTML = `
+				<div id="before-slides" class="slides">${beforeImgs.map(img => `<img src="${img.image_link}" class="img-fluid d-block w-100 mb-2"/>`).join('') || '<div class="text-muted">No before images</div>'}</div>
+				<div id="after-slides" class="slides" style="display:none;">${afterImgs.map(img => `<img src="${img.image_link}" class="img-fluid d-block w-100 mb-2"/>`).join('') || '<div class="text-muted">No after images</div>'}</div>
+			`;
+		}
+
+		function setupBeforeAfterToggle() {
+			const beforeBtn = document.getElementById('before-btn');
+			const afterBtn = document.getElementById('after-btn');
+			if (!beforeBtn || !afterBtn) return;
+			beforeBtn.addEventListener('click', (e)=>{ e.preventDefault(); toggleSlides('before'); });
+			afterBtn.addEventListener('click', (e)=>{ e.preventDefault(); toggleSlides('after'); });
+		}
+
+		function toggleSlides(which) {
+			const beforeSlides = document.getElementById('before-slides');
+			const afterSlides = document.getElementById('after-slides');
+			const beforeBtn = document.getElementById('before-btn');
+			const afterBtn = document.getElementById('after-btn');
+			if (!beforeSlides || !afterSlides) return;
+			if (which === 'before') {
+				beforeSlides.style.display = '';
+				afterSlides.style.display = 'none';
+				beforeBtn.classList.add('active');
+				afterBtn.classList.remove('active');
+			} else {
+				beforeSlides.style.display = 'none';
+				afterSlides.style.display = '';
+				afterBtn.classList.add('active');
+				beforeBtn.classList.remove('active');
+			}
+		}
+
+		function populateVideoLinks(before, after) {
+			const right = document.getElementById('project-media-display');
+			const videoUrlBefore = before && before.video_link && before.video_link.valid ? before.video_link.string : '';
+			const videoUrlAfter = after && after.video_link && after.video_link.valid ? after.video_link.string : '';
+			const list = [
+				videoUrlBefore ? `<li><a href="${videoUrlBefore}" target="_blank">Before Video</a></li>` : '',
+				videoUrlAfter ? `<li><a href="${videoUrlAfter}" target="_blank">After Video</a></li>` : ''
+			].filter(Boolean).join('');
+			right.innerHTML = `<div class="p-3"><h5>Project Videos</h5><ul>${list || '<li class="text-muted">No videos</li>'}</ul></div>`;
+		}
+
+		function populateTexts(before, after) {
+			document.getElementById('project-main-title').textContent = '';
+			document.getElementById('project-story-description').textContent = before ? before.body : '';
+			const costEl = document.getElementById('project-cost');
+			if (after && after.project_cost && after.project_cost.valid) {
+				costEl.textContent = `Actual Cost: ₦${Number(after.project_cost.int32).toLocaleString()}`;
+			} else if (before) {
+				costEl.textContent = `Estimated Target: ₦${Number(before.estimated_target).toLocaleString()}`;
+			} else {
+				costEl.textContent = '';
+			}
+		}
+
+		function populateProgress(before) {
+			const fundedEl = document.getElementById('project-funded');
+			const fundedOfCostEl = document.getElementById('project-funded-of-cost');
+			const pctEl = document.getElementById('project-progress-percentage');
+			const barEl = document.getElementById('project-progress-bar');
+			if (!before) {
+				fundedEl.textContent = '';
+				fundedOfCostEl.textContent = '';
+				pctEl.textContent = '';
+				barEl.style.width = '0%';
+				barEl.setAttribute('aria-valuenow', '0');
+				return;
+			}
+			const target = Number(before.estimated_target || 0);
+			const current = Number(before.current_funds || 0);
+			const remaining = Math.max(target - current, 0);
+			const pct = target > 0 ? Math.min(Math.round((current / target) * 100), 100) : 0;
+			fundedEl.textContent = `Raised: ₦${current.toLocaleString()}`;
+			fundedOfCostEl.textContent = `₦${current.toLocaleString()} of ₦${target.toLocaleString()} (Remaining: ₦${remaining.toLocaleString()})`;
+			pctEl.textContent = `${pct}%`;
+			barEl.style.width = pct + '%';
+			barEl.setAttribute('aria-valuenow', String(pct));
+		}
+		</script>
 	}
 }

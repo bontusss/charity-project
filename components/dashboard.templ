@@ -237,7 +237,7 @@ templ Dashboard() {
 						<div class="card-body">
 							<div class="row">
 								<div class="col-md-8">
-									<h6 class="card-title">${project.name}</h6>
+									<h6 class="card-title">${project.name} <span class="badge bg-${project.status === 'completed' ? 'success' : 'secondary'}">${project.status}</span></h6>
 									<p class="card-text text-muted">Created: ${new Date(project.created_at.time).toLocaleDateString()}</p>
 								</div>
 								<div class="col-md-4">
@@ -245,6 +245,7 @@ templ Dashboard() {
 										<button class="btn btn-outline-primary" onclick="viewProject(${project.id})">View</button>
 										<button class="btn btn-outline-success" onclick="editProjectBefore(${project.id})">Before</button>
 										<button class="btn btn-outline-info" onclick="editProjectAfter(${project.id})">After</button>
+										<button class="btn btn-outline-secondary" onclick="toggleProjectStatus(${project.id}, '${project.status}')">${project.status === 'completed' ? 'Mark Ongoing' : 'Mark Completed'}</button>
 										<button class="btn btn-outline-warning" onclick="editProject(${project.id})">Edit</button>
 										<button class="btn btn-outline-danger" onclick="deleteProject(${project.id})">Delete</button>
 									</div>
@@ -255,6 +256,25 @@ templ Dashboard() {
 				`).join('');
 
 				container.innerHTML = html;
+			}
+
+			async function toggleProjectStatus(projectId, currentStatus) {
+				const nextStatus = currentStatus === 'completed' ? 'ongoing' : 'completed';
+				try {
+					const res = await fetch(`/api/projects/${projectId}/status`, {
+						method: 'PUT',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({ status: nextStatus })
+					});
+					if (res.ok) {
+						loadProjects();
+					} else {
+						const err = await res.json();
+						alert('Error updating status: ' + err.error);
+					}
+				} catch (e) {
+					alert('Network error updating status: ' + e.message);
+				}
 			}
 
 			async function viewProject(projectId) {
@@ -326,6 +346,7 @@ templ Dashboard() {
 				const projectId = document.getElementById('beforeProjectId').value;
 				const body = document.getElementById('beforeBody').value;
 				const estimatedTarget = document.getElementById('estimatedTarget').value;
+				const currentFunds = prompt('Enter current funds raised (number):', '0') || '0';
 				const videoLink = document.getElementById('beforeVideoLink').value;
 				const imageFile = document.getElementById('beforeImage').files[0];
 
@@ -344,6 +365,7 @@ templ Dashboard() {
 						body: JSON.stringify({
 							body: body,
 							estimated_target: estimatedTarget,
+							current_funds: currentFunds,
 							video_link: videoLink
 						})
 					});

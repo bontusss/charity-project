@@ -19,6 +19,7 @@ type Admin struct {
 type Project struct {
 	ID        int32        `json:"id"`
 	Name      string       `json:"name"`
+	Status    string       `json:"status"`
 	CreatedAt sql.NullTime `json:"created_at"`
 	UpdatedAt sql.NullTime `json:"updated_at"`
 }
@@ -36,6 +37,7 @@ type ProjectBefore struct {
 	ProjectID       int32          `json:"project_id"`
 	Body            string         `json:"body"`
 	EstimatedTarget int32          `json:"estimated_target"`
+	CurrentFunds    int32          `json:"current_funds"`
 	VideoLink       sql.NullString `json:"video_link"`
 	CreatedAt       sql.NullTime   `json:"created_at"`
 	UpdatedAt       sql.NullTime   `json:"updated_at"`

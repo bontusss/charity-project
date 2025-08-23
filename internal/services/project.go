@@ -53,6 +53,15 @@ func (s *ProjectService) ListProjects(ctx context.Context) ([]db.Project, error)
 	return projects, nil
 }
 
+// ListProjectsByStatus retrieves projects filtered by status
+func (s *ProjectService) ListProjectsByStatus(ctx context.Context, status string) ([]db.Project, error) {
+	projects, err := s.queries.ListProjectsByStatus(ctx, status)
+	if err != nil {
+		return nil, fmt.Errorf("failed to list projects by status: %w", err)
+	}
+	return projects, nil
+}
+
 // UpdateProject updates a project's basic information
 func (s *ProjectService) UpdateProject(ctx context.Context, id int32, name string) (*db.Project, error) {
 	project, err := s.queries.UpdateProject(ctx, db.UpdateProjectParams{
@@ -61,6 +70,15 @@ func (s *ProjectService) UpdateProject(ctx context.Context, id int32, name strin
 	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to update project: %w", err)
+	}
+	return &project, nil
+}
+
+// UpdateProjectStatus updates a project's status
+func (s *ProjectService) UpdateProjectStatus(ctx context.Context, id int32, status string) (*db.Project, error) {
+	project, err := s.queries.UpdateProjectStatus(ctx, db.UpdateProjectStatusParams{ID: id, Status: status})
+	if err != nil {
+		return nil, fmt.Errorf("failed to update project status: %w", err)
 	}
 	return &project, nil
 }
@@ -90,11 +108,17 @@ func (s *ProjectService) DeleteProject(ctx context.Context, id int32) error {
 }
 
 // CreateProjectBefore creates or updates the "before" section of a project
-func (s *ProjectService) CreateProjectBefore(ctx context.Context, projectID int32, body, estimatedTarget, videoLink string) (*db.ProjectBefore, error) {
+func (s *ProjectService) CreateProjectBefore(ctx context.Context, projectID int32, body, estimatedTarget, currentFunds, videoLink string) (*db.ProjectBefore, error) {
 	// Convert estimatedTarget string to int32
 	estimatedTargetInt, err := strconv.Atoi(estimatedTarget)
 	if err != nil {
 		return nil, fmt.Errorf("invalid estimated target: must be a number")
+	}
+
+	// Convert currentFunds string to int32
+	currentFundsInt, err := strconv.Atoi(currentFunds)
+	if err != nil {
+		return nil, fmt.Errorf("invalid current funds: must be a number")
 	}
 
 	// Try to update first, if it doesn't exist, create new
@@ -105,6 +129,7 @@ func (s *ProjectService) CreateProjectBefore(ctx context.Context, projectID int3
 			ProjectID:       projectID,
 			Body:            body,
 			EstimatedTarget: int32(estimatedTargetInt),
+			CurrentFunds:    int32(currentFundsInt),
 			VideoLink:       sql.NullString{String: videoLink, Valid: videoLink != ""},
 		})
 		if err != nil {
@@ -118,6 +143,7 @@ func (s *ProjectService) CreateProjectBefore(ctx context.Context, projectID int3
 		ProjectID:       projectID,
 		Body:            body,
 		EstimatedTarget: int32(estimatedTargetInt),
+		CurrentFunds:    int32(currentFundsInt),
 		VideoLink:       sql.NullString{String: videoLink, Valid: videoLink != ""},
 	})
 	if err != nil {

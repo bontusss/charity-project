@@ -36,9 +36,9 @@ func (q *Queries) AddProjectImage(ctx context.Context, arg AddProjectImageParams
 }
 
 const createProject = `-- name: CreateProject :one
-INSERT INTO projects (name)
-VALUES ($1)
-RETURNING id, name, created_at, updated_at
+INSERT INTO projects (name, status)
+VALUES ($1, 'ongoing')
+RETURNING id, name, status, created_at, updated_at
 `
 
 func (q *Queries) CreateProject(ctx context.Context, name string) (Project, error) {
@@ -47,6 +47,7 @@ func (q *Queries) CreateProject(ctx context.Context, name string) (Project, erro
 	err := row.Scan(
 		&i.ID,
 		&i.Name,
+		&i.Status,
 		&i.CreatedAt,
 		&i.UpdatedAt,
 	)
@@ -86,15 +87,16 @@ func (q *Queries) CreateProjectAfter(ctx context.Context, arg CreateProjectAfter
 }
 
 const createProjectBefore = `-- name: CreateProjectBefore :one
-INSERT INTO project_before (project_id, body, estimated_target, video_link)
-VALUES ($1, $2, $3, $4)
-RETURNING project_id, body, estimated_target, video_link, created_at, updated_at
+INSERT INTO project_before (project_id, body, estimated_target, current_funds, video_link)
+VALUES ($1, $2, $3, $4, $5)
+RETURNING project_id, body, estimated_target, current_funds, video_link, created_at, updated_at
 `
 
 type CreateProjectBeforeParams struct {
 	ProjectID       int32          `json:"project_id"`
 	Body            string         `json:"body"`
 	EstimatedTarget int32          `json:"estimated_target"`
+	CurrentFunds    int32          `json:"current_funds"`
 	VideoLink       sql.NullString `json:"video_link"`
 }
 
@@ -103,6 +105,7 @@ func (q *Queries) CreateProjectBefore(ctx context.Context, arg CreateProjectBefo
 		arg.ProjectID,
 		arg.Body,
 		arg.EstimatedTarget,
+		arg.CurrentFunds,
 		arg.VideoLink,
 	)
 	var i ProjectBefore
@@ -110,6 +113,7 @@ func (q *Queries) CreateProjectBefore(ctx context.Context, arg CreateProjectBefo
 		&i.ProjectID,
 		&i.Body,
 		&i.EstimatedTarget,
+		&i.CurrentFunds,
 		&i.VideoLink,
 		&i.CreatedAt,
 		&i.UpdatedAt,
@@ -168,7 +172,7 @@ func (q *Queries) DeleteProjectImage(ctx context.Context, id int32) error {
 }
 
 const getProject = `-- name: GetProject :one
-SELECT id, name, created_at, updated_at FROM projects
+SELECT id, name, status, created_at, updated_at FROM projects
 WHERE id = $1
 LIMIT 1
 `
@@ -179,6 +183,7 @@ func (q *Queries) GetProject(ctx context.Context, id int32) (Project, error) {
 	err := row.Scan(
 		&i.ID,
 		&i.Name,
+		&i.Status,
 		&i.CreatedAt,
 		&i.UpdatedAt,
 	)
@@ -206,7 +211,7 @@ func (q *Queries) GetProjectAfter(ctx context.Context, projectID int32) (Project
 }
 
 const getProjectBefore = `-- name: GetProjectBefore :one
-SELECT project_id, body, estimated_target, video_link, created_at, updated_at FROM project_before
+SELECT project_id, body, estimated_target, current_funds, video_link, created_at, updated_at FROM project_before
 WHERE project_id = $1
 LIMIT 1
 `
@@ -218,6 +223,7 @@ func (q *Queries) GetProjectBefore(ctx context.Context, projectID int32) (Projec
 		&i.ProjectID,
 		&i.Body,
 		&i.EstimatedTarget,
+		&i.CurrentFunds,
 		&i.VideoLink,
 		&i.CreatedAt,
 		&i.UpdatedAt,
@@ -302,7 +308,7 @@ func (q *Queries) ListProjectImagesByPhase(ctx context.Context, arg ListProjectI
 }
 
 const listProjects = `-- name: ListProjects :many
-SELECT id, name, created_at, updated_at FROM projects
+SELECT id, name, status, created_at, updated_at FROM projects
 ORDER BY created_at DESC
 `
 
@@ -318,6 +324,42 @@ func (q *Queries) ListProjects(ctx context.Context) ([]Project, error) {
 		if err := rows.Scan(
 			&i.ID,
 			&i.Name,
+			&i.Status,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const listProjectsByStatus = `-- name: ListProjectsByStatus :many
+SELECT id, name, status, created_at, updated_at FROM projects
+WHERE status = $1
+ORDER BY created_at DESC
+`
+
+func (q *Queries) ListProjectsByStatus(ctx context.Context, status string) ([]Project, error) {
+	rows, err := q.db.QueryContext(ctx, listProjectsByStatus, status)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []Project{}
+	for rows.Next() {
+		var i Project
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.Status,
 			&i.CreatedAt,
 			&i.UpdatedAt,
 		); err != nil {
@@ -339,7 +381,7 @@ UPDATE projects
 SET name = $2,
     updated_at = NOW()
 WHERE id = $1
-RETURNING id, name, created_at, updated_at
+RETURNING id, name, status, created_at, updated_at
 `
 
 type UpdateProjectParams struct {
@@ -353,6 +395,7 @@ func (q *Queries) UpdateProject(ctx context.Context, arg UpdateProjectParams) (P
 	err := row.Scan(
 		&i.ID,
 		&i.Name,
+		&i.Status,
 		&i.CreatedAt,
 		&i.UpdatedAt,
 	)
@@ -399,16 +442,18 @@ const updateProjectBefore = `-- name: UpdateProjectBefore :one
 UPDATE project_before
 SET body = $2,
     estimated_target = $3,
-    video_link = $4,
+    current_funds = $4,
+    video_link = $5,
     updated_at = NOW()
 WHERE project_id = $1
-RETURNING project_id, body, estimated_target, video_link, created_at, updated_at
+RETURNING project_id, body, estimated_target, current_funds, video_link, created_at, updated_at
 `
 
 type UpdateProjectBeforeParams struct {
 	ProjectID       int32          `json:"project_id"`
 	Body            string         `json:"body"`
 	EstimatedTarget int32          `json:"estimated_target"`
+	CurrentFunds    int32          `json:"current_funds"`
 	VideoLink       sql.NullString `json:"video_link"`
 }
 
@@ -417,6 +462,7 @@ func (q *Queries) UpdateProjectBefore(ctx context.Context, arg UpdateProjectBefo
 		arg.ProjectID,
 		arg.Body,
 		arg.EstimatedTarget,
+		arg.CurrentFunds,
 		arg.VideoLink,
 	)
 	var i ProjectBefore
@@ -424,7 +470,34 @@ func (q *Queries) UpdateProjectBefore(ctx context.Context, arg UpdateProjectBefo
 		&i.ProjectID,
 		&i.Body,
 		&i.EstimatedTarget,
+		&i.CurrentFunds,
 		&i.VideoLink,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+	)
+	return i, err
+}
+
+const updateProjectStatus = `-- name: UpdateProjectStatus :one
+UPDATE projects
+SET status = $2,
+    updated_at = NOW()
+WHERE id = $1
+RETURNING id, name, status, created_at, updated_at
+`
+
+type UpdateProjectStatusParams struct {
+	ID     int32  `json:"id"`
+	Status string `json:"status"`
+}
+
+func (q *Queries) UpdateProjectStatus(ctx context.Context, arg UpdateProjectStatusParams) (Project, error) {
+	row := q.db.QueryRowContext(ctx, updateProjectStatus, arg.ID, arg.Status)
+	var i Project
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Status,
 		&i.CreatedAt,
 		&i.UpdatedAt,
 	)
