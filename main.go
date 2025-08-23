@@ -159,5 +159,5 @@ func main() {
 	router.GET("/admin/login", adminHandlers.ShowLogin)
 
 	// Start the server on port 8080
-	router.Run(":8080")
+	router.Run(":8081")
 }
