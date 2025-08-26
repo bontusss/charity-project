@@ -1,0 +1,77 @@
+package components
+
+templ BlogDetails() {
+	@Base("Blog Details") {
+		<!-- Hero/Header -->
+		<section class="hero-section position-relative" style="background: url('/static/images/Banner.jpg') center center/cover no-repeat; min-height: 260px;">
+			<div class="position-absolute bottom-0 w-100" style="background: rgba(0,0,0,0.5);">
+				<div class="container py-3 text-white">
+					<h1 class="h3 mb-0" id="blogTitleHero">Blog</h1>
+				</div>
+			</div>
+		</section>
+
+		<!-- Blog Detail Content -->
+		<section class="py-5 bg-light">
+			<div class="container">
+				<div id="blogDetailContainer" class="row justify-content-center">
+					<div class="col-12 text-center">
+						<div class="spinner-border" role="status">
+							<span class="visually-hidden">Loading...</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<script>
+		// Load a single blog post using query param ?id=123 or path /blog?id=123
+		document.addEventListener('DOMContentLoaded', () => {
+			const params = new URLSearchParams(window.location.search);
+			const id = params.get('id');
+			if (!id) {
+				document.getElementById('blogDetailContainer').innerHTML = '<div class="col-12"><p class="text-center text-muted">No blog post specified.</p></div>';
+				return;
+			}
+			loadBlogDetail(id);
+		});
+
+		async function loadBlogDetail(id) {
+			try {
+				const res = await fetch(`/api/blog-posts/${id}`);
+				if (!res.ok) {
+					document.getElementById('blogDetailContainer').innerHTML = '<div class="col-12"><p class="text-center text-muted">Blog post not found.</p></div>';
+					return;
+				}
+				const data = await res.json();
+				const post = data.blog_post;
+				renderBlogDetail(post);
+			} catch (e) {
+				document.getElementById('blogDetailContainer').innerHTML = '<div class="col-12"><p class="text-center text-muted">Error loading blog post.</p></div>';
+			}
+		}
+
+		function renderBlogDetail(post) {
+			const container = document.getElementById('blogDetailContainer');
+			const imageUrl = post.image_link && post.image_link.Valid ? post.image_link.String : '';
+			const createdDate = post.created_at && post.created_at.Time ? new Date(post.created_at.Time).toLocaleDateString() : '';
+			document.getElementById('blogTitleHero').textContent = post.title || 'Blog';
+			container.innerHTML = `
+				<div class="col-lg-9">
+					<div class="card border-0 shadow-sm">
+						${imageUrl ? `<img src="${imageUrl}" class="card-img-top" alt="${post.title}" style="max-height: 420px; object-fit: cover;">` : ''}
+						<div class="card-body p-4">
+							<h2 class="h3 mb-3">${post.title || ''}</h2>
+							<p class="text-muted small mb-4">${createdDate}</p>
+							<p class="mb-0" style="white-space: pre-wrap;">${post.body || ''}</p>
+						</div>
+					</div>
+					<div class="mt-4">
+						<a href="/blog" class="btn btn-outline-secondary">Back to Blog</a>
+					</div>
+				</div>
+			`;
+		}
+		</script>
+	}
+}

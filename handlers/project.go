@@ -180,6 +180,66 @@ func (h *ProjectHandler) CreateProjectBefore(c *gin.Context) {
 	})
 }
 
+// UpdateProjectBefore updates only specific fields of project "before" section (admin only)
+func (h *ProjectHandler) UpdateProjectBefore(c *gin.Context) {
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid project ID"})
+		return
+	}
+
+	var req struct {
+		EstimatedTarget string `json:"estimated_target"`
+		CurrentFunds    string `json:"current_funds"`
+	}
+
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request data"})
+		return
+	}
+
+	// Get existing project before data
+	existingBefore, err := h.projectService.GetProjectBefore(c.Request.Context(), int32(id))
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Project before section not found"})
+		return
+	}
+
+	// Update only the specified fields
+	estimatedTarget := existingBefore.EstimatedTarget
+	currentFunds := existingBefore.CurrentFunds
+
+	if req.EstimatedTarget != "" {
+		if target, err := strconv.Atoi(req.EstimatedTarget); err == nil {
+			estimatedTarget = int32(target)
+		}
+	}
+
+	if req.CurrentFunds != "" {
+		if funds, err := strconv.Atoi(req.CurrentFunds); err == nil {
+			currentFunds = int32(funds)
+		}
+	}
+
+	// Create a minimal body if it doesn't exist (required field)
+	body := existingBefore.Body
+	if body == "" {
+		body = "Project details"
+	}
+
+	projectBefore, err := h.projectService.CreateProjectBefore(c.Request.Context(), int32(id), body, strconv.Itoa(int(estimatedTarget)), strconv.Itoa(int(currentFunds)), "")
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message":        "Project before section updated successfully",
+		"project_before": projectBefore,
+	})
+}
+
 // GetProjectBefore retrieves project "before" section
 func (h *ProjectHandler) GetProjectBefore(c *gin.Context) {
 	idStr := c.Param("id")

@@ -3,18 +3,18 @@ package components
 templ Projects() {
 	@Base("Projects") {
 		<!-- ==== coming soon section start ==== -->
-		<div id="project-hero-section" class="main-container">
-			<div class="background-content">
-				<div class="left-content project-display-area"></div>
-				<div id="project-media-display" class="right-media"></div>
+		<div id="project-hero-section" class="main-container" style="height: 420px; overflow: hidden;">
+			<div class="background-content" style="display: flex; height: 100%;">
+				<div class="left-content project-display-area" style="flex: 1; height: 100%; overflow: hidden;"></div>
+				<div id="project-media-display" class="right-media" style="flex: 0 0 320px; height: 100%; overflow-y: auto;"></div>
 			</div>
-			<div class="button-container-before">
+			<div class="button-container-before" style="position: absolute; bottom: 16px; left: 16px; right: 16px;">
 				<div class="button-group">
 					<a href="#" id="before-btn" class="btn btn-before btn-lg me-3 active" aria-current="page">Before</a>
 					<a href="#" id="after-btn" class="btn btn-after btn-lg">After</a>
 				</div>
 				<div class="right-bottom-elements">
-					<a href="#" id="future-state-link" class="btn btn btn-lg text-white">Videos Of Project</a>
+					<a href="#" id="future-state-link" class="btn btn btn-lg text-white" target="_blank" rel="noopener">Videos Of Project</a>
 				</div>
 			</div>
 		</div>
@@ -284,6 +284,11 @@ templ Projects() {
 				const completed = projects.filter(p => p.status === 'completed');
 				renderProjectCards('ongoing-projects-container', ongoing);
 				renderProjectCards('completed-projects-container', completed);
+				
+				// Load first project by default
+				if (projects.length > 0) {
+					onProjectSelected(projects[0].id);
+				}
 			} catch (e) { console.error(e); }
 		}
 
@@ -293,6 +298,9 @@ templ Projects() {
 			container.innerHTML = list.map(p => `
 				<div class="col-12 col-md-6 col-lg-4">
 					<div class="card h-100">
+						<div class="ratio ratio-16x9 bg-light">
+							<img id="proj-card-img-${p.id}" src="" alt="${p.name}" class="w-100 h-100" style="object-fit: cover;"/>
+						</div>
 						<div class="card-body d-flex flex-column">
 							<h5 class="card-title">${p.name}</h5>
 							<button class="btn btn-success mt-auto" onclick="onProjectSelected(${p.id})">View</button>
@@ -300,6 +308,23 @@ templ Projects() {
 					</div>
 				</div>
 			`).join('');
+			// Load first before image for each project card asynchronously
+			list.forEach(async (p) => {
+				try {
+					const imgEl = document.getElementById(`proj-card-img-${p.id}`);
+					if (!imgEl) return;
+					const res = await fetch(`/api/projects/${p.id}/images/phase?phase=before`);
+					if (res.ok) {
+						const data = await res.json();
+						const images = data.images || [];
+						if (images.length > 0) {
+							imgEl.src = images[0].image_link;
+						} else {
+							imgEl.src = '/static/images/Slide 1.png';
+						}
+					}
+				} catch (e) { /* ignore */ }
+			});
 		}
 
 		async function onProjectSelected(projectId) {
@@ -318,7 +343,7 @@ templ Projects() {
 				populateBanner(before, after, images);
 				populateProgress(before);
 				populateTexts(before, after);
-				populateVideoLinks(before, after);
+				populateVideoLinkButton(before, after);
 			} catch (e) { console.error(e); }
 		}
 
@@ -331,8 +356,8 @@ templ Projects() {
 			const afterImgs = images.filter(i => i.phase === 'after');
 
 			left.innerHTML = `
-				<div id="before-slides" class="slides">${beforeImgs.map(img => `<img src="${img.image_link}" class="img-fluid d-block w-100 mb-2"/>`).join('') || '<div class="text-muted">No before images</div>'}</div>
-				<div id="after-slides" class="slides" style="display:none;">${afterImgs.map(img => `<img src="${img.image_link}" class="img-fluid d-block w-100 mb-2"/>`).join('') || '<div class="text-muted">No after images</div>'}</div>
+				<div id="before-slides" class="slides" style="height:100%;">${beforeImgs.map(img => `<img src="${img.image_link}" class="d-block w-100 h-100" style="object-fit: cover;"/>`).join('') || '<div class="text-muted p-3">No before images</div>'}</div>
+				<div id="after-slides" class="slides" style="height:100%; display:none;">${afterImgs.map(img => `<img src="${img.image_link}" class="d-block w-100 h-100" style="object-fit: cover;"/>`).join('') || '<div class="text-muted p-3">No after images</div>'}</div>
 			`;
 		}
 
@@ -363,10 +388,27 @@ templ Projects() {
 			}
 		}
 
+		function populateVideoLinkButton(before, after) {
+			const videoBtn = document.getElementById('future-state-link');
+			if (!videoBtn) return;
+			const beforeUrl = before && before.video_link && (before.video_link.String || (before.video_link.string)) && (before.video_link.Valid || before.video_link.valid) ? (before.video_link.String || before.video_link.string) : '';
+			const afterUrl = after && after.video_link && (after.video_link.String || (after.video_link.string)) && (after.video_link.Valid || after.video_link.valid) ? (after.video_link.String || after.video_link.string) : '';
+			const url = beforeUrl || afterUrl || '';
+			if (url) {
+				videoBtn.href = url;
+				videoBtn.classList.remove('disabled');
+				videoBtn.setAttribute('aria-disabled', 'false');
+			} else {
+				videoBtn.href = '#';
+				videoBtn.classList.add('disabled');
+				videoBtn.setAttribute('aria-disabled', 'true');
+			}
+		}
+
 		function populateVideoLinks(before, after) {
 			const right = document.getElementById('project-media-display');
-			const videoUrlBefore = before && before.video_link && before.video_link.valid ? before.video_link.string : '';
-			const videoUrlAfter = after && after.video_link && after.video_link.valid ? after.video_link.string : '';
+			const videoUrlBefore = before && before.video_link && (before.video_link.String || (before.video_link.string)) && (before.video_link.Valid || before.video_link.valid) ? (before.video_link.String || before.video_link.string) : '';
+			const videoUrlAfter = after && after.video_link && (after.video_link.String || (after.video_link.string)) && (after.video_link.Valid || after.video_link.valid) ? (after.video_link.String || after.video_link.string) : '';
 			const list = [
 				videoUrlBefore ? `<li><a href="${videoUrlBefore}" target="_blank">Before Video</a></li>` : '',
 				videoUrlAfter ? `<li><a href="${videoUrlAfter}" target="_blank">After Video</a></li>` : ''

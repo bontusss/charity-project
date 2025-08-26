@@ -16,6 +16,15 @@ type Admin struct {
 	UpdatedAt sql.NullTime `json:"updated_at"`
 }
 
+type BlogPost struct {
+	ID        int32          `json:"id"`
+	Title     string         `json:"title"`
+	Body      string         `json:"body"`
+	ImageLink sql.NullString `json:"image_link"`
+	CreatedAt sql.NullTime   `json:"created_at"`
+	UpdatedAt sql.NullTime   `json:"updated_at"`
+}
+
 type Project struct {
 	ID        int32        `json:"id"`
 	Name      string       `json:"name"`
