@@ -2,12 +2,21 @@ package components
 
 templ Projects() {
 	@Base("Projects") {
-		<!-- ==== coming soon section start ==== -->
-		<div id="project-hero-section" class="main-container" style="height: 420px; overflow: hidden;">
-			<div class="background-content" style="display: flex; height: 100%;">
-				<div class="left-content project-display-area" style="flex: 1; height: 100%; overflow: hidden;"></div>
-				<div id="project-media-display" class="right-media" style="flex: 0 0 320px; height: 100%; overflow-y: auto;"></div>
+		<!-- ==== banner ==== -->
+		<div id="project-hero-section" class="main-container position-relative" style="height: 720px; overflow: hidden;">
+			<div class="background-content" style="display: block; height: 100%; position: relative;">
+				// <div class="left-content project-display-area" style="height: 100%; overflow: hidden;">
+					<!-- Main banner image -->
+					<img id="main-project-image" src="" alt="Project" class="w-100 h-100" style="object-fit: cover; display:none;"/>
+					<div id="main-project-image-empty" class="w-100 h-100 d-flex align-items-center justify-content-center text-muted" style="background: #f8f9fa;">No images</div>
+				// </div>
+
+				<!-- Top-right overlay thumbnails -->
+				<div id="project-thumbs-overlay" class="right-media position-absolute" style="top: 12px; right: 12px; max-width: 320px;">
+					<div id="thumbs-container" class="d-flex flex-column gap-2"></div>
+				</div>
 			</div>
+
 			<div class="button-container-before" style="position: absolute; bottom: 16px; left: 16px; right: 16px;">
 				<div class="button-group">
 					<a href="#" id="before-btn" class="btn btn-before btn-lg me-3 active" aria-current="page">Before</a>
@@ -18,6 +27,7 @@ templ Projects() {
 				</div>
 			</div>
 		</div>
+		<!-- banner end -->
 		<!--Our story-->
 		<div class="container py-5">
 			<div class="row mb-4">
@@ -26,6 +36,9 @@ templ Projects() {
 					<p id="project-story-description" class="text-dark"></p>
 				</div>
 			</div>
+			<div class="d-flex justify-content-end mb-2">
+                <img src="/static/images/sprade-green.png" alt="Small Progress Image" class="img-fluid rounded" style="width: 50px; height: auto;">
+            </div>
 			<div class="row">
 				<div class="col-12 col-md-12">
 					<div class="d-flex flex-column mb-3">
@@ -47,76 +60,46 @@ templ Projects() {
 						<div id="project-progress-bar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
 					</div>
 					<div class="text-center">
-				 <button type="button" class="btn btn-custom-donate btn-lg w-100" data-bs-toggle="modal" data-bs-target="#donationModal">
-                 Donate</button>
-          </div>
-		<div class="modal fade" id="donationModal" tabindex="-1" aria-labelledby="donationModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content">
-					<div class="modal-header">
-					   <p>Please make your donation to the following bank account details.</p>
-						<h5 class="modal-title" id="donationModalLabel">Make Your Donations Through</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						<button type="button" class="btn btn-custom-donate btn-lg w-100" data-bs-toggle="modal" data-bs-target="#donationModal">Donate</button>
 					</div>
-					<div class="modal-body text-center">
-						
-						<div class="card bg-light p-3 mb-3">
-							<h6 class="text-muted mb-1">Bank Name</h6>
-							<h4 class="fw-bold" id="bankName">Firstbank</h4>
-						</div>
-						    
-			            <div class="card bg-light p-3 mb-3">
-							<h6 class="text-muted mb-1">Account Name</h6>
-							<h4 class="fw-bold" id="bankName">chineducharity</h4>
-						</div>
-						<div class="card bg-light p-3 mb-3">
-							<h6 class="text-muted mb-1">Account Number</h6>
-							<div class="d-flex justify-content-center align-items-center">
-								<h4 class="fw-bold mb-0 me-2" id="accountNumber">#11139475867</h4>
-								<button class="btn btn-outline-secondary btn-sm" id="copyBtn" data-clipboard-target="#accountNumber">
-									<i class="fas fa-copy"></i> Copy
-								</button>
+					<div class="modal fade" id="donationModal" tabindex="-1" aria-labelledby="donationModalLabel" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered">
+							<div class="modal-content">
+								<div class="modal-header">
+									<p>Please make your donation to the following bank account details.</p>
+									<h5 class="modal-title" id="donationModalLabel">Make Your Donations Through</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body text-center">
+									<div class="card bg-light p-3 mb-3">
+										<h6 class="text-muted mb-1">Bank Name</h6>
+										<h4 class="fw-bold" id="bankName">Firstbank</h4>
+									</div>
+									<div class="card bg-light p-3 mb-3">
+										<h6 class="text-muted mb-1">Account Name</h6>
+										<h4 class="fw-bold" id="bankName">chineducharity</h4>
+									</div>
+									<div class="card bg-light p-3 mb-3">
+										<h6 class="text-muted mb-1">Account Number</h6>
+										<div class="d-flex justify-content-center align-items-center">
+											<h4 class="fw-bold mb-0 me-2" id="accountNumber">#11139475867</h4>
+											<button class="btn btn-outline-secondary btn-sm" id="copyBtn" data-clipboard-target="#accountNumber">
+												<i class="fas fa-copy"></i> Copy
+											</button>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer d-flex justify-content-center">
+									<button type="button" class="btn btn-success btn-lg" data-bs-dismiss="modal" id="confirmTransferBtn">I have made a transfer</button>
+								</div>
 							</div>
 						</div>
-						<!--<p class="mt-4">
-							After making the transfer, please click the button below to confirm.
-						</p>-->
-					</div>
-					<div class="modal-footer d-flex justify-content-center">
-						<button type="button" class="btn btn-success btn-lg" data-bs-dismiss="modal" id="confirmTransferBtn">
-							I have made a transfer
-						</button>
 					</div>
 				</div>
 			</div>
 		</div>
-				</div>
-			</div>
-		</div>
-		<div class="modal fade" id="thankYouModal" tabindex="-1" aria-labelledby="thankYouModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="thankYouModalLabel">Thank You! 🎉</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body text-center">
-                <p>Thanks for Donating to **Chineducharityfoundation**!</p>
-                <p>We've received your information and will be in touch shortly to confirm your donation.</p>
-                <hr>
-                <div class="contact-info">
-                    <p class="mb-1">For More Inquiries:</p>
-                    <p class="mb-1"><strong>Email:</strong> Info@cheducharityfoundation.com</p>
-                    <p><strong>Call:</strong> 09034646364646</p>
-                </div>
-            </div>
-            <div class="modal-footer d-flex justify-content-center">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 		<!--our story end-->
+
 		<!--ongoing project starts-->
 		<div class="container my-5">
 			<h2 class="card-header fw-bold mb-4">Ongoing Projects</h2>
@@ -271,6 +254,8 @@ templ Projects() {
 		<script>
 		// Projects page dynamic behavior
 		document.addEventListener('DOMContentLoaded', () => {
+			window.__projectImageSets = { before: [], after: [] };
+			window.__currentPhase = 'before';
 			loadAndRenderProjects();
 			setupBeforeAfterToggle();
 		});
@@ -302,7 +287,7 @@ templ Projects() {
 							<img id="proj-card-img-${p.id}" src="" alt="${p.name}" class="w-100 h-100" style="object-fit: cover;"/>
 						</div>
 						<div class="card-body d-flex flex-column">
-							<h5 class="card-title">${p.name}</h5>
+							<h2 class="card-title h5 fw-bold">${p.name}</h2>
 							<button class="btn btn-success mt-auto" onclick="onProjectSelected(${p.id})">View</button>
 						</div>
 					</div>
@@ -340,52 +325,56 @@ templ Projects() {
 				if (afterRes.ok) { const d = await afterRes.json(); after = d.project_after; }
 				if (imagesRes.ok) { const d = await imagesRes.json(); images = d.images || []; }
 
-				populateBanner(before, after, images);
-				populateProgress(before);
+				const beforeImgs = images.filter(i => i.phase === 'before');
+				const afterImgs = images.filter(i => i.phase === 'after');
+				window.__projectImageSets.before = beforeImgs;
+				window.__projectImageSets.after = afterImgs;
+
 				populateTexts(before, after);
+				populateProgress(before);
 				populateVideoLinkButton(before, after);
+				renderBannerPhase(window.__currentPhase);
 			} catch (e) { console.error(e); }
 		}
 
-		function populateBanner(before, after, images) {
-			const left = document.querySelector('.left-content.project-display-area');
-			const right = document.getElementById('project-media-display');
-			if (!left || !right) return;
-
-			const beforeImgs = images.filter(i => i.phase === 'before');
-			const afterImgs = images.filter(i => i.phase === 'after');
-
-			left.innerHTML = `
-				<div id="before-slides" class="slides" style="height:100%;">${beforeImgs.map(img => `<img src="${img.image_link}" class="d-block w-100 h-100" style="object-fit: cover;"/>`).join('') || '<div class="text-muted p-3">No before images</div>'}</div>
-				<div id="after-slides" class="slides" style="height:100%; display:none;">${afterImgs.map(img => `<img src="${img.image_link}" class="d-block w-100 h-100" style="object-fit: cover;"/>`).join('') || '<div class="text-muted p-3">No after images</div>'}</div>
-			`;
+		function renderBannerPhase(phase) {
+			const mainImg = document.getElementById('main-project-image');
+			const placeholder = document.getElementById('main-project-image-empty');
+			const thumbs = document.getElementById('thumbs-container');
+			if (!mainImg || !placeholder || !thumbs) return;
+			const list = (window.__projectImageSets && window.__projectImageSets[phase]) || [];
+			if (list.length === 0) {
+				mainImg.style.display = 'none';
+				placeholder.style.display = '';
+				thumbs.innerHTML = '';
+				return;
+			}
+			// Show first image by default
+			mainImg.src = list[0].image_link;
+			mainImg.style.display = '';
+			placeholder.style.display = 'none';
+			// Build thumbnails
+			thumbs.innerHTML = list.map((img, idx) => `
+				<img src="${img.image_link}" class="img-fluid rounded shadow" style="max-width: 140px; cursor: pointer; ${idx>0? 'opacity:0.9;':''}" data-idx="${idx}" alt="thumb"/>
+			`).join('');
+			// Bind click handlers
+			Array.from(thumbs.querySelectorAll('img[data-idx]')).forEach(el => {
+				el.addEventListener('click', () => {
+					const i = Number(el.getAttribute('data-idx')) || 0;
+					const chosen = list[i];
+					if (chosen) {
+						mainImg.src = chosen.image_link;
+					}
+				});
+			});
 		}
 
 		function setupBeforeAfterToggle() {
 			const beforeBtn = document.getElementById('before-btn');
 			const afterBtn = document.getElementById('after-btn');
 			if (!beforeBtn || !afterBtn) return;
-			beforeBtn.addEventListener('click', (e)=>{ e.preventDefault(); toggleSlides('before'); });
-			afterBtn.addEventListener('click', (e)=>{ e.preventDefault(); toggleSlides('after'); });
-		}
-
-		function toggleSlides(which) {
-			const beforeSlides = document.getElementById('before-slides');
-			const afterSlides = document.getElementById('after-slides');
-			const beforeBtn = document.getElementById('before-btn');
-			const afterBtn = document.getElementById('after-btn');
-			if (!beforeSlides || !afterSlides) return;
-			if (which === 'before') {
-				beforeSlides.style.display = '';
-				afterSlides.style.display = 'none';
-				beforeBtn.classList.add('active');
-				afterBtn.classList.remove('active');
-			} else {
-				beforeSlides.style.display = 'none';
-				afterSlides.style.display = '';
-				afterBtn.classList.add('active');
-				beforeBtn.classList.remove('active');
-			}
+			beforeBtn.addEventListener('click', (e)=>{ e.preventDefault(); window.__currentPhase = 'before'; beforeBtn.classList.add('active'); afterBtn.classList.remove('active'); renderBannerPhase('before'); });
+			afterBtn.addEventListener('click', (e)=>{ e.preventDefault(); window.__currentPhase = 'after'; afterBtn.classList.add('active'); beforeBtn.classList.remove('active'); renderBannerPhase('after'); });
 		}
 
 		function populateVideoLinkButton(before, after) {
@@ -405,25 +394,14 @@ templ Projects() {
 			}
 		}
 
-		function populateVideoLinks(before, after) {
-			const right = document.getElementById('project-media-display');
-			const videoUrlBefore = before && before.video_link && (before.video_link.String || (before.video_link.string)) && (before.video_link.Valid || before.video_link.valid) ? (before.video_link.String || before.video_link.string) : '';
-			const videoUrlAfter = after && after.video_link && (after.video_link.String || (after.video_link.string)) && (after.video_link.Valid || after.video_link.valid) ? (after.video_link.String || after.video_link.string) : '';
-			const list = [
-				videoUrlBefore ? `<li><a href="${videoUrlBefore}" target="_blank">Before Video</a></li>` : '',
-				videoUrlAfter ? `<li><a href="${videoUrlAfter}" target="_blank">After Video</a></li>` : ''
-			].filter(Boolean).join('');
-			right.innerHTML = `<div class="p-3"><h5>Project Videos</h5><ul>${list || '<li class="text-muted">No videos</li>'}</ul></div>`;
-		}
-
 		function populateTexts(before, after) {
-			document.getElementById('project-main-title').textContent = '';
+			document.getElementById('project-main-title').textContent = before ? before.name: "";
 			document.getElementById('project-story-description').textContent = before ? before.body : '';
 			const costEl = document.getElementById('project-cost');
 			if (after && after.project_cost && after.project_cost.valid) {
 				costEl.textContent = `Actual Cost: ₦${Number(after.project_cost.int32).toLocaleString()}`;
 			} else if (before) {
-				costEl.textContent = `Estimated Target: ₦${Number(before.estimated_target).toLocaleString()}`;
+				costEl.textContent = `₦${Number(before.estimated_target).toLocaleString()}`;
 			} else {
 				costEl.textContent = '';
 			}
@@ -446,7 +424,7 @@ templ Projects() {
 			const current = Number(before.current_funds || 0);
 			const remaining = Math.max(target - current, 0);
 			const pct = target > 0 ? Math.min(Math.round((current / target) * 100), 100) : 0;
-			fundedEl.textContent = `Raised: ₦${current.toLocaleString()}`;
+			fundedEl.textContent = `₦${current.toLocaleString()}`;
 			fundedOfCostEl.textContent = `₦${current.toLocaleString()} of ₦${target.toLocaleString()} (Remaining: ₦${remaining.toLocaleString()})`;
 			pctEl.textContent = `${pct}%`;
 			barEl.style.width = pct + '%';

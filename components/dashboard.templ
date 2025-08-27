@@ -135,7 +135,7 @@ templ Dashboard() {
 							</div>
 							<div class="mb-3">
 								<label for="beforeImage" class="form-label">Upload Before Image</label>
-								<input type="file" class="form-control" id="beforeImage" accept="image/*">
+								<input type="file" class="form-control" id="beforeImage" accept="image/*" multiple>
 							</div>
 						</form>
 					</div>
@@ -172,7 +172,7 @@ templ Dashboard() {
 							</div>
 							<div class="mb-3">
 								<label for="afterImage" class="form-label">Upload After Image</label>
-								<input type="file" class="form-control" id="afterImage" accept="image/*">
+								<input type="file" class="form-control" id="afterImage" accept="image/*" multiple>
 							</div>
 						</form>
 					</div>
@@ -276,6 +276,7 @@ templ Dashboard() {
 						headers: {
 							'Content-Type': 'application/json',
 						},
+						credentials: 'include',
 						body: JSON.stringify({ name: name })
 					});
 
@@ -286,8 +287,15 @@ templ Dashboard() {
 						bootstrap.Modal.getInstance(document.getElementById('createProjectModal')).hide();
 						loadProjects();
 					} else {
-						const error = await response.json();
-						alert('Error: ' + error.error);
+						let message = 'Unknown error';
+						try {
+							const error = await response.json();
+							message = error.error || JSON.stringify(error);
+						} catch (e) {
+							const text = await response.text();
+							message = text.includes('<!doctype') ? 'Authentication required. Please log in.' : text;
+						}
+						alert('Error: ' + message);
 					}
 				} catch (error) {
 					alert('Error creating project: ' + error.message);
@@ -431,7 +439,7 @@ templ Dashboard() {
 				const estimatedTarget = document.getElementById('estimatedTarget').value;
 				const currentFunds = prompt('Enter current funds raised (number):', '0') || '0';
 				const videoLink = document.getElementById('beforeVideoLink').value;
-				const imageFile = document.getElementById('beforeImage').files[0];
+				const imageFiles = Array.from(document.getElementById('beforeImage').files || []);
 
 				if (!body || !estimatedTarget) {
 					alert('Please fill in all required fields');
@@ -454,9 +462,9 @@ templ Dashboard() {
 					});
 
 					if (response.ok) {
-						// Upload image if provided
-						if (imageFile) {
-							await uploadProjectImage(projectId, imageFile, 'before');
+						// Upload all selected images if any
+						for (const file of imageFiles) {
+							await uploadProjectImage(projectId, file, 'before');
 						}
 						
 						alert('Project before details saved successfully!');
@@ -503,7 +511,7 @@ templ Dashboard() {
 				const body = document.getElementById('afterBody').value;
 				const projectCost = document.getElementById('projectCost').value;
 				const videoLink = document.getElementById('afterVideoLink').value;
-				const imageFile = document.getElementById('afterImage').files[0];
+				const imageFiles = Array.from(document.getElementById('afterImage').files || []);
 
 				if (!body) {
 					alert('Please fill in the description');
@@ -525,9 +533,9 @@ templ Dashboard() {
 					});
 
 					if (response.ok) {
-						// Upload image if provided
-						if (imageFile) {
-							await uploadProjectImage(projectId, imageFile, 'after');
+						// Upload all selected images if any
+						for (const file of imageFiles) {
+							await uploadProjectImage(projectId, file, 'after');
 						}
 						
 						alert('Project after details saved successfully!');
