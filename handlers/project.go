@@ -308,38 +308,80 @@ func (h *ProjectHandler) GetProjectAfter(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"project_after": projectAfter})
 }
 
-// UploadProjectImage uploads an image for a project (admin only)
 func (h *ProjectHandler) UploadProjectImage(c *gin.Context) {
-	idStr := c.Param("id")
-	id, err := strconv.Atoi(idStr)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid project ID"})
-		return
-	}
+    idStr := c.Param("id")
+    id, err := strconv.Atoi(idStr)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid project ID"})
+        return
+    }
 
-	phase := c.PostForm("phase")
-	if phase == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Phase is required"})
-		return
-	}
+    phase := c.PostForm("phase")
+    if phase == "" {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Phase is required"})
+        return
+    }
 
-	file, err := c.FormFile("image")
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "No image file provided"})
-		return
-	}
+    form, err := c.MultipartForm()
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to parse multipart form"})
+        return
+    }
 
-	projectImage, err := h.projectService.UploadProjectImage(c.Request.Context(), int32(id), phase, file)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
+    files := form.File["image"]
+    if len(files) == 0 {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "No image files provided"})
+        return
+    }
 
-	c.JSON(http.StatusOK, gin.H{
-		"message": "Image uploaded successfully",
-		"image":   projectImage,
-	})
+    var uploadedImages []interface{}
+    for _, file := range files {
+        projectImage, err := h.projectService.UploadProjectImage(c.Request.Context(), int32(id), phase, file)
+        if err != nil {
+            c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+            return
+        }
+        uploadedImages = append(uploadedImages, projectImage)
+    }
+
+    c.JSON(http.StatusOK, gin.H{
+        "message": "Images uploaded successfully",
+        "images":  uploadedImages,
+    })
 }
+
+// UploadProjectImage uploads an image for a project (admin only)
+// func (h *ProjectHandler) UploadProjectImage(c *gin.Context) {
+// 	idStr := c.Param("id")
+// 	id, err := strconv.Atoi(idStr)
+// 	if err != nil {
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid project ID"})
+// 		return
+// 	}
+
+// 	phase := c.PostForm("phase")
+// 	if phase == "" {
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": "Phase is required"})
+// 		return
+// 	}
+
+// 	file, err := c.FormFile("image")
+// 	if err != nil {
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": "No image file provided"})
+// 		return
+// 	}
+
+// 	projectImage, err := h.projectService.UploadProjectImage(c.Request.Context(), int32(id), phase, file)
+// 	if err != nil {
+// 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+// 		return
+// 	}
+
+// 	c.JSON(http.StatusOK, gin.H{
+// 		"message": "Image uploaded successfully",
+// 		"image":   projectImage,
+// 	})
+// }
 
 // ListProjectImages retrieves all images for a project
 func (h *ProjectHandler) ListProjectImages(c *gin.Context) {

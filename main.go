@@ -133,6 +133,14 @@ func main() {
 		}
 	})
 
+	router.GET("/donation-form", func(c *gin.Context) {
+		err := components.Donate().Render(c, c.Writer)
+		if err != nil {
+			c.String(500, "Error rendering template: %v", err)
+			return
+		}
+	})
+
 	// Protected routes
 	protected := router.Group("/")
 	protected.Use(auth.AuthMiddleware(authService))

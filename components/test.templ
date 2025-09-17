@@ -1,0 +1,385 @@
+package components
+
+templ Test() {
+    @Base("") {
+            <div class="main-container" style="">
+        <div class="top-buttons-sm d-flex d-md-none p-3 position-absolute top-0 start-0">
+            <a href="" class="btn btn-sm text-white active me-2" aria-current="page">Before</a>
+            <a class="btn btn-sm text-white " >After</a>
+       </div>
+        
+        <div class="background-content">
+            <div class="left-content project-display-area d-none d-md-block">
+                </div>
+
+            <div class="right-media d-none d-md-block">
+                <div class="media-item mb-3">
+                    
+                    <img src="" alt="Before Image Spotlight" class="img-fluid rounded shadow">
+                    
+                </div>
+                <div class="media-item">
+                  
+                    <div class="embed-responsive embed-responsive-16by9 rounded shadow">
+                        <iframe class="embed-responsive-item" src="" allowfullscreen></iframe>
+                        </div>
+                    
+                </div>
+            </div>
+        </div>
+
+           <div class="right-media-sm-bottom d-block d-md-none text-center p-3 fixed-bottom">
+             <div class="d-flex justify-content-center mb-2">
+            <button class="btn btn-custom rounded-pill text-white me-2">Photos</button>
+            <button class="btn btn-custom rounded-pill text-white ms-2">Photos</button>
+           </div>
+        </div>
+
+            <div class="button-container-after d-none d-md-flex justify-content-between align-items-center">
+         <div class="button-group d-flex">
+            <a href="" class="btn btn-before btn-lg active me-3"aria-current="page">Before</a>
+            <a href="" class="btn btn-after btn-lg " >After</a>
+        </div>
+       <div class="right-bottom-elements">
+        <a href="" class="btn btn-lg text-white">Videos Of Projects</a>
+        </div>
+      </div>
+    </div>
+    }
+
+    <!--Our story-->
+        <div class="container py-5">
+        <div class="row mb-4">
+            <div class="col-12 col-md-12">
+                <h1 class="fw-bold mb-3"></h1>
+                <p class="text-dark">
+                    
+                    
+                </p>
+            </div>
+        </div>
+       
+           <div class="d-flex justify-content-end mb-2">
+                <img src="/static/images/sprade-green.png" alt="Small Progress Image" class="img-fluid rounded" style="width: 50px; height: auto;">
+            </div>
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <div class="d-flex flex-column mb-3">
+                    <p class="fw-small mb-2">Estimated progress cost</p>
+                    <h3 class="fw-bold mb-2"></h3>
+                    
+                </div>
+                
+                <div>
+                    <div class="d-flex flex-column mb-3">
+                        <h3 class="fw-bold mb-2">Campaign progress</h3>
+                    <h3 class="fw-bold mb-2"></h3>
+                    <p></p>
+                        <div class="d-flex justify-content-end align-items-center mb-1">
+                <div class="text-center">
+                    <h3 class="fw-bold mb-0">15%</h3>
+                    <p class="mb-0">of Goal</p>
+                </div>
+            </div>
+    
+                </div>
+                    <div class="progress mb-4" style="height: 10px;">
+                    <div class="progress-bar" role="progressbar" style="width: 15%;" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">
+                    </div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+            <a href="#" class="btn btn-custom-donate btn-lg w-100">Donate</a>
+            </div>
+            </div>
+        </div>
+       </div>
+    <!--our story end-->
+
+     <!--ongoing project starts-->
+        <div class="container my-5">
+            <h2 class="card-header fw-bold mb-4">Ongoing Projects</h2>
+            <div class="row g-4 mb-4">
+                <div class="col-12 col-md-6">
+                    <div class="card h-100">
+                        <img src="images/shape.png" class="card-img-top" alt="Card Image 1">
+                        <div class="card-body d-flex flex-column">
+                            <h2 class="card-title h5 fw-bold">Mama Adanne Renovate</h2>
+                            <p class="card-text text-small">For over Two Decades, This House Stood As More Than Just Bricks And Mortar- it's Been A Shelter, A place of Laughter, Prayer, And Quiet Endurance.....</p>
+                            <p class="card-text small mb-2"><strong> 12 June 2025</strong></p>
+                            <div class="mt-auto">
+                                <div class="progress mb-2">
+                                    <div class="progress-bar" role="progressbar" style="width: 20%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <p class="card-text fw-bold text-start">N200,000 out of N10,000,000</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+               
+            </div>
+
+            
+        </div>
+    <!--ongoing project end-->
+
+    <!--completed projects starts-->
+        <div class="container my-5">
+            <h2 class="card-header fw-bold mb-4">Completed Projects</h2>
+            <div class="row g-4 mb-4">
+                <div class="col-12 col-md-6">
+                    <div class="card h-100">
+                        <img src="images/shape.png" class="card-img-top" alt="Card Image 1">
+                        <div class="card-body d-flex flex-column">
+                            <h2 class="card-title h5 fw-bold">Mama Adanne Renovate</h2>
+                            <p class="card-text text-small">For over Two Decades, This House Stood As More Than Just Bricks And Mortar- it's Been A Shelter, A place of Laughter, Prayer, And Quiet Endurance.....</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+    <!--completed projects ends-->
+// ...existing code...
+<script>
+// --- Dynamic Project List, Banner, and Details Population for test.templ ---
+
+document.addEventListener('DOMContentLoaded', async () => {
+    let currentProjectId = null;
+    let allProjects = [];
+    let projectSections = {};
+
+    // DOM Elements
+    const mainContainer = document.querySelector('.main-container');
+    const bannerImg = document.querySelector('.right-media .media-item img');
+    const iframe = document.querySelector('.right-media .media-item + .media-item iframe');
+    const ongoingContainer = document.querySelectorAll('.container.my-5 .row.g-4.mb-4')[0];
+    const completedContainer = document.querySelectorAll('.container.my-5 .row.g-4.mb-4')[1];
+    const storyTitle = document.querySelector('.container.py-5 h1');
+    const storyBody = document.querySelector('.container.py-5 p.text-dark');
+    const estCost = document.querySelector('.container.py-5 .fw-bold.mb-2');
+    const progressNow = document.querySelectorAll('.container.py-5 .fw-bold.mb-2')[1];
+    const progressText = document.querySelector('.container.py-5 p.mb-0');
+    const progressBar = document.querySelector('.container.py-5 .progress-bar');
+    const beforeBtn = document.querySelector('.btn-before');
+    const afterBtn = document.querySelector('.btn-after');
+    const topBtns = document.querySelectorAll('.top-buttons-sm .btn');
+    const videoBtn = document.querySelector('.right-bottom-elements a.btn-lg');
+
+    // --- Fetch all projects ---
+    async function fetchProjects() {
+        const res = await fetch('/api/projects');
+        const data = await res.json();
+        return data.projects || [];
+    }
+
+    // --- Fetch project sections and images ---
+    async function fetchProjectSections(projectId) {
+        const [before, after, images] = await Promise.all([
+            fetch(`/api/projects/${projectId}/before`).then(r=>r.ok?r.json():{}).then(d=>d.project_before||null),
+            fetch(`/api/projects/${projectId}/after`).then(r=>r.ok?r.json():{}).then(d=>d.project_after||null),
+            fetch(`/api/projects/${projectId}/images`).then(r=>r.ok?r.json():{}).then(d=>d.images||[])
+        ]);
+        return { before, after, images };
+    }
+
+    // --- Render project cards ---
+    function renderProjectCards(list, container, type) {
+        container.innerHTML = '';
+        list.forEach(project => {
+            const sec = projectSections[project.id] || {};
+            const before = sec.before || {};
+            const est = before.estimated_target || 1;
+            const cur = before.current_funds || 0;
+            const percent = Math.round((cur/est)*100);
+            const date = project.created_at ? new Date(project.created_at).toLocaleDateString() : '';
+            const card = document.createElement('div');
+            card.className = 'col-12 col-md-6';
+            card.innerHTML = `
+                <div class="card h-100 project-card" data-id="${project.id}">
+                    <img src="${(sec.images||[]).find(i=>i.phase==='before')?.image_link || 'images/shape.png'}" class="card-img-top" alt="Card Image">
+                    <div class="card-body d-flex flex-column">
+                        <h2 class="card-title h5 fw-bold project-title" style="cursor:pointer" data-id="${project.id}">${project.name}</h2>
+                        <p class="card-text text-small">${before.body ? before.body.substring(0, 120) + '...' : ''}</p>
+                        <p class="card-text small mb-2"><strong>${date}</strong></p>
+                        <div class="mt-auto">
+                            <div class="progress mb-2">
+                                <div class="progress-bar" role="progressbar" style="width: ${percent}%;"
+                                    aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <p class="card-text fw-bold text-start">N${cur.toLocaleString()} out of N${est.toLocaleString()}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    // --- Render completed project cards ---
+    function renderCompletedCards(list, container) {
+        container.innerHTML = '';
+        list.forEach(project => {
+            const sec = projectSections[project.id] || {};
+            const before = sec.before || {};
+            const card = document.createElement('div');
+            card.className = 'col-12 col-md-6';
+            card.innerHTML = `
+                <div class="card h-100 project-card" data-id="${project.id}">
+                    <img src="${(sec.images||[]).find(i=>i.phase==='after')?.image_link || 'images/shape.png'}" class="card-img-top" alt="Card Image">
+                    <div class="card-body d-flex flex-column">
+                        <h2 class="card-title h5 fw-bold project-title" style="cursor:pointer" data-id="${project.id}">${project.name}</h2>
+                        <p class="card-text text-small">${before.body ? before.body.substring(0, 120) + '...' : ''}</p>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    // --- Render project details in "Our Story" and banner ---
+    function renderProjectDetails(projectId) {
+        const sec = projectSections[projectId];
+        if (!sec) return;
+        const before = sec.before || {};
+        const after = sec.after || {};
+        const images = sec.images || [];
+        // Our Story
+        storyTitle.textContent = allProjects.find(p=>p.id===projectId)?.name || '';
+        storyBody.textContent = before.body || '';
+        estCost.textContent = "N" + (before.estimated_target || 0).toLocaleString();
+        progressNow.textContent = `${"N" + (before.current_funds || 0).toLocaleString()} Funded`;
+        const percent = before.estimated_target ? Math.round((before.current_funds/before.estimated_target)*100) : 0;
+        progressText.textContent = `of N${(before.estimated_target||0).toLocaleString()} Funded`;
+        progressBar.style.width = percent + "%";
+        progressBar.setAttribute('aria-valuenow', percent);
+        progressBar.textContent = '';
+        // Banner
+        let phase = beforeBtn.classList.contains('active') ? 'before' : 'after';
+        renderBannerImages(images, phase);
+        renderBannerVideo(phase, before, after);
+        // Video link for "Videos Of Projects"
+        let videoLink = (phase === 'before' ? before.video_link : after.video_link);
+        videoBtn.onclick = (e) => {
+            e.preventDefault();
+            if (videoLink) {
+                let url = typeof videoLink === 'object' ? (videoLink.String || videoLink.string) : videoLink;
+                window.open(url, '_blank');
+            }
+        };
+    }
+
+    // --- Render banner images and thumbnails ---
+    function renderBannerImages(images, phase) {
+        // Filter images by phase
+        const imgs = images.filter(i => i.phase === phase);
+        // Set main background image
+        if (imgs.length > 0) {
+            mainContainer.style.setProperty('--page-background-image', `url('${imgs[0].image_link}')`);
+        } else {
+            mainContainer.style.setProperty('--page-background-image', `url('images/Container%20(3).png')`);
+        }
+        // Show other images (if any) in .right-media .media-item img
+        if (imgs.length > 1) {
+            bannerImg.src = imgs[1].image_link;
+        } else if (imgs.length === 1) {
+            bannerImg.src = imgs[0].image_link;
+        } else {
+            bannerImg.src = 'images/Slide 1 (1).png';
+        }
+    }
+
+    // --- Render video in banner ---
+    function renderBannerVideo(phase, before, after) {
+        let videoLink = (phase === 'before' ? before.video_link : after.video_link);
+        let url = '';
+        if (videoLink) {
+            url = typeof videoLink === 'object' ? (videoLink.String || videoLink.string) : videoLink;
+        }
+        if (iframe) {
+            if (url && url.includes('youtube.com')) {
+                let embedUrl = url;
+                if (url.includes('watch?v=')) {
+                    embedUrl = url.replace('watch?v=', 'embed/');
+                }
+                iframe.src = embedUrl;
+            } else if (url && url.includes('youtu.be/')) {
+                let vid = url.split('youtu.be/')[1];
+                iframe.src = 'https://www.youtube.com/embed/' + vid;
+            } else if (url) {
+                iframe.src = url;
+            } else {
+                iframe.src = '';
+            }
+        }
+    }
+
+    // --- Setup before/after toggle for both desktop and mobile ---
+    function setupToggle() {
+        function updatePhase(phase) {
+            if (!currentProjectId) return;
+            renderBannerImages(projectSections[currentProjectId].images, phase);
+            renderBannerVideo(phase, projectSections[currentProjectId].before, projectSections[currentProjectId].after);
+        }
+        if (beforeBtn && afterBtn) {
+            beforeBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                beforeBtn.classList.add('active');
+                afterBtn.classList.remove('active');
+                updatePhase('before');
+            });
+            afterBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                afterBtn.classList.add('active');
+                beforeBtn.classList.remove('active');
+                updatePhase('after');
+            });
+        }
+        topBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                topBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const phase = btn.textContent.trim().toLowerCase();
+                updatePhase(phase);
+            });
+        });
+    }
+
+    // --- Bind project card click events ---
+    function bindProjectCardClicks() {
+        document.querySelectorAll('.project-title').forEach(el => {
+            el.onclick = (e) => {
+                const id = Number(el.getAttribute('data-id'));
+                if (id && projectSections[id]) {
+                    currentProjectId = id;
+                    renderProjectDetails(id);
+                }
+            };
+        });
+    }
+
+    // --- Initial load ---
+    allProjects = await fetchProjects();
+    for (const p of allProjects) {
+        projectSections[p.id] = await fetchProjectSections(p.id);
+    }
+    const ongoing = allProjects.filter(p => p.status === 'ongoing');
+    const completed = allProjects.filter(p => p.status === 'completed');
+    renderProjectCards(ongoing, ongoingContainer, 'ongoing');
+    renderCompletedCards(completed, completedContainer);
+    if (ongoing.length > 0) {
+        currentProjectId = ongoing[0].id;
+        renderProjectDetails(currentProjectId);
+    } else if (completed.length > 0) {
+        currentProjectId = completed[0].id;
+        renderProjectDetails(currentProjectId);
+    }
+    setupToggle();
+    bindProjectCardClicks();
+});
+</script>
+// ...existing code...
+}

@@ -24,6 +24,7 @@ templ Base(title string) {
 				href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Outfit:wght@100..900&display=swap"
 				rel="stylesheet"
 			/>
+			<link rel="icon" href="/static/images/charity logo 2.png" type="images/x-icon">
 			<!-- main css -->
 			<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
 			<link rel="stylesheet" href="/static/style.css"/>
@@ -68,6 +69,53 @@ templ Base(title string) {
 					</div>
 				</div>
 			</nav>
+
+			      <!-- Improved Donation Modal Layout -->
+			<div class="modal fade" id="donationModal" tabindex="-1" aria-labelledby="donationModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+    //   <div class="modal-header flex-column align-items-start border-0 pb-0">
+    //     <p class="mb-2" style="font-size: 1.1rem;">Thank you for trying to donate to Chinedu Charity Foundation</p>
+    //     <h5 class="modal-title mb-0" id="donationModalLabel">Make Your Donations Through</h5>
+    //     <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+    //   </div>
+
+      <div class="modal-body">
+        <form>
+          <div class="row g-3 align-items-center justify-content-center">
+            <div class="col-6 text-end">
+              <label class="fw-bold mb-2">Account Number:</label>
+              <label class="fw-bold mb-2">Account Type:</label>
+              <label class="fw-bold mb-2">Account Name:</label>
+            </div>
+            <div class="col-6 text-start">
+              <div class="d-flex align-items-center mb-2">
+                <span class="fw me-2" id="accountNumber">#11139475867</span>
+                <button class="btn btn-outline-secondary btn-sm" type="button" id="copyBtn" data-clipboard-target="#accountNumber">
+                  <i class="fas fa-copy"></i> Copy
+                </button>
+              </div>
+              <div class="mb-2">
+                <span class="fw" id="bankType">Firstbank</span>
+              </div>
+              <div>
+                <span class="fw" id="accountName">chineducharity</span>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer d-flex justify-content-center border-0 pt-0">
+        <!-- NOTE: removed data-bs-dismiss here so clicking won't auto-close -->
+        <button type="button" class="btn btn-success btn-lg" id="confirmTransferBtn">
+          I have made a transfer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 			<main>
 				{ children... }
 			</main>

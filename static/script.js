@@ -175,19 +175,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
    
 document.getElementById('confirmTransferBtn').addEventListener('click', function() {
+    // Redirect to donation form page
+    window.location.href = '/donation-form';
     // Here you can add logic to show a thank you message,
     // redirect to a new page, or trigger an email.
-    alert('Thank you for your donation! We appreciate your support.');
+    
 
-    // This is a new part of the script
-    // It fetches the content of the external file
-    fetch('donate-form.html')
-        .then(response => response.text())
-        .then(data => {
-            // Now, it injects the form into your main page
-            const formContainer = document.getElementById('form-container'); // You need to add this ID to a div on your page
-            formContainer.innerHTML = data;
-        });
+
 });
 
 document.querySelector('#confirmation-form form').addEventListener('submit', function(event) {
@@ -196,9 +190,9 @@ document.querySelector('#confirmation-form form').addEventListener('submit', fun
     // ... your logic for collecting form data goes here
 
     // === Show the Thank You Pop-Up ===
-    const thankYouModal = new bootstrap.Modal(document.getElementById('thankYouModal'));
-    thankYouModal.show();
-
+    alert('Thank you for your donation! We appreciate your support.');
     // You can also reset the form after submission
     event.target.reset();
 });
+
+
